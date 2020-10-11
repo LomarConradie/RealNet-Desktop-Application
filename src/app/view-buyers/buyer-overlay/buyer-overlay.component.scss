@@ -1,0 +1,191 @@
+.PopUp_Body {
+    display: block;
+    background: white;
+    width: 650px;
+    border-style: solid;
+    border-width: 2px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    transition: 0.3s;
+}
+
+.header_cls{
+    background: black;
+    text-align: center;
+}
+
+#Header {
+    font-size: 35px;
+    font-weight: bold;
+    background: black;
+    color: white;
+  }
+  
+  #close_img {
+    height: 25px;
+    width: 25px;
+    float: right;
+    margin-top: 7px;
+    margin-right: 5px;
+    cursor: pointer;
+  }
+
+.Personal_Details{
+    display: flex;
+    border: 2px solid lightgray;
+    .Buyer_img {
+        min-height: 300px;
+        min-width: 300px;
+        max-height: 300px;
+        max-width: 300px;
+        position: relative;
+        border: 1px solid black;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+        button{
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          display: none;
+          transform: translate(-50%, -50%);
+          -ms-transform: translate(-50%, -50%);
+          border: 2px solid white;
+          background: none;
+          color: white;
+          font-size: 14px;
+          font-weight: bold;
+          width: 100px;
+          height: 30px;
+          cursor: pointer;
+          transition: ease-in-out 0.3s;
+          outline: none;
+        }
+        button:hover{
+          background: white;
+          color: rgb(66, 29, 102);
+        }
+      }
+      .Buyer_img:hover{
+        #Edit_Buyer{
+          display: block;
+        }
+      }
+      .Contact_Details{
+        width: 100%;
+      }
+}
+
+.Top_Row{
+  display: flex;
+  width: 100%;
+}
+
+.Bottom_Row{
+  display: flex;
+  width: 100%;
+}
+
+.end{
+  width: 19%;
+}
+
+.btn_img {
+  height: 21px;
+  width: 21px;
+  float: left;
+}
+
+#EditBuyer_Btn {
+  color: white;
+  border: none;
+  cursor: pointer;
+  background: red;
+  min-width: 130px;
+  font-size: 14px;
+  height: 32px;
+  margin-top: 5px;
+  margin-right: 3px;
+  transition: ease-in-out 0.5s;
+  float: right;
+  margin-right: 5px;
+}
+
+#EditBuyer_Btn:hover {
+  background: black;
+}
+
+.IconsRow_Div {
+  display: flex;
+  height: 3%;
+  width: 81%;
+  margin-left: 5px;
+  margin-top: 2px;
+}
+
+.PopUpIcons {
+  height: 25px;
+  width: 25px;
+  margin-top: 7px;
+  margin-right: 3px;
+}
+
+.IconLabels {
+  margin-top: 10px;
+  margin-right: 3px;
+  margin-left: 10px;
+  color: red;
+  font-weight: bold;
+}
+
+#LandSizeAnswer_lbl {
+  margin-top: 10px;
+  margin-left: 3px;
+}
+
+#PriceRange_lbl {
+  margin-top: 10px;
+  color: red;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+#PriceRangeAnswer_lbl {
+  margin-top: 10px;
+  margin-left: 3px;
+}
+
+.Title{
+    background: lightgray;
+    width: 100%;
+    h3{
+        padding-left: 3px;
+    }
+}
+.Details{
+    margin-bottom: 10px;
+    li {
+        list-style: none;
+        color: black;
+    } 
+    a{
+        color: rgb(216, 4, 4);
+        margin-left: 2px;
+    }
+}
+
+.Preferences{
+    border: 2px solid lightgray;
+    margin: 5px;
+}
+
+.Property_row{
+  display: flex;
+}
+
+.col{
+  width: 50%;
+}

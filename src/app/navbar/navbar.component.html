@@ -1,0 +1,43 @@
+<!-- Navbar has been recoded for optimal code reuse and functionality... ORIGINAL CODE BELOW (LJLG) -->
+<header>
+  <div class="navbar" *ngIf="auth.user$ | async as loggedInUser">
+    <img routerLink="" class="logo" src="assets/Logos/platinum logo.jpg" alt="RealNet">
+
+    <a routerLink="/home" routerLinkActive="active">Home</a>
+
+    <div class="dropdown first">
+      <button class="dropbtn"><img class="Nav_img" src="assets/icons/properties_icon.png" alt="Name">Properties</button>
+      <div class="dropdown-content_property">
+        <a routerLink="/properties" routerLinkActive="active">View Properties</a>
+        <a routerLink="/addproperty" routerLinkActive="active">Add Property</a>
+      </div>
+    </div>
+
+    <div class="dropdown">
+      <button class="dropbtn"><img class="Nav_img" src="assets/icons/buyer_icon.png" alt="Name">Buyers</button>
+      <div class="dropdown-content_buyer">
+        <a routerLink="/buyers" routerLinkActive="active">View Buyers</a>
+        <a routerLink="/addbuyer" routerLinkActive="active">Add Buyer</a>
+      </div>
+    </div>
+
+    <div class="dropdown">
+      <button class="dropbtn"><img class="Nav_img" src="assets/icons/agents_icon.png" alt="Name">Agents</button>
+      <div class="dropdown-content_agent">
+        <a routerLink="/agents" routerLinkActive="active">View Agents</a>
+        <a routerLink="/addagent" routerLinkActive="active">Add Agent</a>
+      </div>
+    </div>
+
+    <div class="dropdown">
+      <button class="dropbtn"><img class="Nav_img" src="assets/icons/profile_icon.png" alt="Name">Profile</button>
+      <div class="dropdown-content_logout">
+        <img class="userImage" [src]="loggedInUser.agentPicUrl || 'assets/user-avatar-placeholder.png'"
+          alt="pic not available">
+        <label id="UserName_lbl">{{loggedInUser.name}} {{loggedInUser.surname}}</label>
+        <a (click)="signOut()">Log Out</a>
+      </div>
+    </div>
+
+  </div>
+</header>

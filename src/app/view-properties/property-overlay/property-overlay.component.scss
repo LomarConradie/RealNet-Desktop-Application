@@ -1,0 +1,377 @@
+/* ------------------------------ POP UP PAGE CODE --------------------- */
+* {
+  box-sizing: border-box;
+}
+
+.PopUp_Body {
+  display: block;
+  background: white;
+  width: 750px;
+  border-style: solid;
+  border-width: 2px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  text-align: center;
+  transition: 0.3s;
+}
+
+.Header{
+  background: black;
+  color: white;
+}
+
+#PropertyTitle_lbl {
+  font-size: 35px;
+  font-weight: bold;
+}
+
+#close_img {
+  height: 35px;
+  width: 35px;
+  float: right;
+  margin-top: 7px;
+  margin-right: 5px;
+  padding-bottom: 4px;
+  cursor: pointer;
+}
+
+.Pictures_Div {
+  display: flex;
+  width: 100%;
+  height: 350px;
+}
+
+.MainPicture_div {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.MainImage_Class {
+  height: calc(100% - 35px);
+
+  img {
+    height: 100%;
+    width: 100%;
+    max-height: 100%;
+    max-width: 100%
+  }
+}
+
+.BottomIcon_Class {
+  display: flex;
+  background-color: rgb(201, 201, 201);
+  max-width: 100%;
+  max-height: 35px;
+  min-height: 35px;
+  justify-content: space-evenly;
+}
+
+.BottomIconContainer {
+  display: flex;
+}
+
+.BottomIcons {
+  height: 22px;
+  width: auto;
+  margin: 5px;
+}
+
+.BottomIconLabels {
+  color: black;
+  font-weight: bold;
+  display: flex;
+  font-size: 14px;
+  justify-content: center;
+  align-items: center;
+}
+
+.SeperatePictures_div {
+  display: block;
+  max-width: 25%;
+  max-height: 100%;
+  min-width: 25%;
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.Picture_div {
+  border:black solid 3px;
+  max-width: 100%;
+  height: 33.33%;
+  transition: all 0.25s ease;
+  display: flex;
+  justify-content: center;
+
+  img {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+
+.Picture_div.active {
+  border: red solid 3px;
+  filter: brightness(100%); 
+}
+
+.Picture_div:hover{
+  filter: brightness(70%);
+  cursor: pointer;
+}
+
+
+.Picture_div {
+  filter: brightness(50%);
+}
+
+.Picture_div:active {
+  border-color: darkmagenta;
+}
+
+.IconsRow_Div {
+  display: flex;
+  height: 3%;
+  width: 85%;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 2px;
+}
+
+.row{
+  display: flex;
+  width: 100%;
+}
+
+.end{
+  width: 15%;
+}
+
+.btn_img {
+  height: 21px;
+  width: 21px;
+  float: left; 
+}
+
+#EditProperty_Btn {
+  color: white;
+  border: none;
+  cursor: pointer;
+  background:red;
+  min-width: 130px;
+  font-size: 14px;
+  height: 32px;
+  margin-top: 5px;
+  margin-left: -50px;
+  transition: ease-in-out 0.5s;
+}
+
+#EditProperty_Btn:hover {
+  background: black;
+}
+
+.PopUpIcons {
+  height: 22px;
+  width: 25px;
+  margin-top: 7px;
+  margin-right: 3px;
+}
+
+.IconLabels {
+  margin-top: 10px;
+  margin-right: 3px;
+  margin-left: 10px;
+  color: red;
+  font-weight: bold;
+}
+
+#FloorSizeAnswer_lbl {
+  margin-top: 10px;
+  margin-left: 3px;
+}
+
+#WebRefNo_lbl {
+  margin-top: 10px;
+  color: red;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+#WebRefNoAnswer_lbl {
+  margin-top: 10px;
+  margin-left: 3px;
+}
+
+.MainInputs_Div {
+  display: block;
+  width: 720px;
+  margin-left: 11px;
+  margin-bottom: 5px;
+  height: 56%;
+}
+
+.PropertyInfo_Div {
+  display: block;
+  margin-top: 5px;
+  border: gray solid 2px;
+  width: 99.3%;
+  margin-left: 5px;
+  margin-right: 5px;
+  height: 40%;
+}
+
+.PropertyInfoTitle_div {
+  text-align: left;
+  height: 12%;
+  background-color: rgb(201, 201, 201);
+}
+
+#PropertyInfoTitle_lbl {
+  margin-left: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.PropertyInfoData_div {
+  display: flex;
+  height: 90%;
+  width: 100%;
+}
+
+#Details_lbl {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+#Features_lbl {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+#LeaseDetails_lbl {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.DataLabels {
+  font-size: 14px;
+  color: red;
+}
+
+.DataLabelsAnswers {
+  font-size: 14px;
+}
+
+.col1_div {
+  height: 100%;
+  width: 35%;
+  text-align: left;
+  margin-left: 5px;
+}
+
+.col2_div {
+  height: 100%;
+  width: 31%;
+  text-align: left;
+}
+
+.col3_div {
+  height: 100%;
+  width: 34%;
+  text-align: left;
+  margin-left: 15px;
+}
+
+.AdditionalInfo_Div {
+  display: block;
+  margin-top: 5px;
+  border: gray solid 2px;
+  width: 99.3%;
+  margin-left: 5px;
+  margin-right: 5px;
+  height: 25%;
+}
+
+.AdditionalInfoTitle_div {
+  text-align: left;
+  height: 16%;
+  background-color: rgb(201, 201, 201);
+}
+
+#AdditionalInfotitle_lbl {
+  margin-left: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.AdditionalInfoData_div {
+  display: flex;
+  height: 85%;
+  width: 100%;
+}
+
+#Seller_LandlordDetails_lbl {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+#MandateDetails_lbl {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+#LinkDetails_lbl {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.Agents_Div {
+  display: flex;
+  margin-top: 5px;
+  border: gray solid 2px;
+  width: 99.3%;
+  margin-left: 5px;
+  margin-right: 5px;
+  height: 34%;
+}
+
+.AgentPicture_div {
+  border: gray solid 2px;
+  width: 150px;
+  height: 150px;
+  margin: 5px;
+
+  img{
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.AgentInfo_div {
+  display: block;
+  width: 75%;
+  margin: 5px;
+  text-align: left;
+  li {
+    list-style: none;
+    color: red;
+    font-size: 14px;
+    margin-bottom: 3px;
+  }
+  a{
+    color: black;
+  }  
+}
+
+#AgentName_lbl {
+  font-weight: bold;
+  font-size: 25px;
+}

@@ -1,0 +1,393 @@
+.HomePage_Main {
+  overflow: hidden;
+  width: 100%;
+  text-align: center;
+}
+
+.center-template {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.property-overlay,
+.buyer-overlay {
+  background: rgba(128, 128, 128, 0.5);
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  z-index: 10;
+}
+
+.TopImage_div {
+  height: 824px;
+  background-image: url("src/assets/Home-page-picture.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  -webkit-background-size: cover;
+  -o-background-size: cover;
+}
+
+.WelcomeText_div {
+  text-align: center;
+  height: 80%;
+  text-shadow: 0px 0px 8px black;
+  h1 {
+    color: white;
+    font-style: italic;
+    font-size: 75px;
+    padding-top: 250px;
+  }
+  a {
+    color: white;
+    font-size: 30px;
+  }
+}
+
+.QuickAccess_div {
+  display: flex;
+  background: rgba(0, 0, 0, 0.651);
+  align-items: center;
+  justify-content: center;
+}
+
+.QuickAccess_btn {
+  background: red;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  height: 85px;
+  width: 85px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  outline: none;
+  transition: ease-in-out 0.3s;
+  img {
+    width: 45px;
+    height: 45px;
+  }
+}
+
+#PropertiesView_btn {
+  margin-right: 75px;
+}
+
+#PropertiesAdd_btn {
+  margin-right: 75px;
+  img {
+    width: 50px;
+  }
+}
+
+#BuyersView_btn {
+  margin-right: 75px;
+}
+
+.QuickAccess_btn:hover {
+  background-color: #501974;
+}
+
+.Title {
+  text-align: center;
+  color: white;
+  background-color: black;
+  height: 35px;
+  padding-top: 5px;
+}
+
+.Input {
+  outline: 0;
+  border: none;
+  border-bottom: 1.5px solid black;
+  padding-bottom: 3px;
+  padding-left: 40px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  width: 200px;
+}
+
+.Properties_Block,
+.noProperties {
+  margin: 5px;
+  border: 2px black solid;
+  width: 70%;
+  height: 300px;
+  margin-left: 15%;
+  display: flex;
+}
+
+.Properties_Block_img {
+  border: 1px black solid;
+  margin: 5px;
+  display: flex;
+  min-width: 400px;
+  min-height: 200px;
+  max-width: 400px;
+  max-height: 300px;
+  align-items: center;
+  justify-content: center;
+  img {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.Top {
+  margin-top: 20px;
+  display: inline-block;
+  margin-bottom: 10px;
+  label{
+    font-weight: bold;
+  }
+}
+
+.Properties_Block_Content {
+  margin-left: 5px;
+  display: block;
+
+  #PropertyPrice {
+    color: red;
+    font-size: 35px;
+    font-weight: bolder;
+  }
+
+  #PropertyName {
+    font-weight: bolder;
+    font-size: 16px;
+  }
+
+  .buttons_row {
+    display: flex;
+    margin-top: 170px;
+    #ViewProperty_Btn {
+      color: white;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      background: red;
+      min-width: 130px;
+      font-size: 14px;
+      height: 32px;
+      transition: ease-in-out 0.3s;
+    }
+
+    #ViewProperty_Btn:hover {
+      background: black;
+    }
+
+    #EditProperty_Btn {
+      color: white;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      background: red;
+      min-width: 130px;
+      font-size: 14px;
+      height: 32px;
+      margin-left: 10px;
+      transition: ease-in-out 0.3s;
+    }
+
+    #EditProperty_Btn:hover {
+      background: black;
+    }
+
+    .btn_img {
+      height: 21px;
+      width: 21px;
+      float: left;
+    }
+
+    .Arrow {
+      display: flex;
+      margin-left: 10px;
+    }
+    .Arrow figure img {
+      opacity: 1;
+      -webkit-transition: 0.25s ease;
+      transition: 0.25s ease;
+      min-width: 30px;
+      min-height: 30px;
+    }
+    .Arrow figure:hover img {
+      opacity: 0.2;
+      cursor: pointer;
+    }
+    #PropertyAmount_lbl {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+  }
+}
+
+.Icons_row {
+  margin-top: 5px;
+  display: flex;
+  .icons {
+    height: 25px;
+    width: 25px;
+    margin-right: 3px;
+  }
+  .Icons_Labels {
+    color: red;
+    font-weight: bolder;
+    font-size: 17px;
+    margin-right: 10px;
+  }
+}
+
+.Buyers_div {
+  margin-bottom: 50px;
+}
+
+.Buyers_Block,
+.noBuyers {
+  margin: 5px;
+  border: 2px black solid;
+  width: 70%;
+  height: 315px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+}
+.AgentPicture_div {
+  border: gray solid 2px;
+  max-width: 300px;
+  max-height: 300px;
+  margin: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+}
+
+.AgentInfo_div {
+  display: block;
+  width: 75%;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 5px;
+  text-align: left;
+  #AgentName_lbl {
+    font-weight: bold;
+    font-size: 25px;
+    margin-top: 5px;
+  }
+  #primary {
+    margin-top: 25px;
+    font-weight: bold;
+  }
+  .li_class {
+    list-style: none;
+    color: red;
+    font-size: 14px;
+    margin-bottom: 3px;
+  }
+  .a_data {
+    color: black;
+  }
+  #secondary {
+    margin-top: 35px;
+    font-weight: bold;
+  }
+  .buttons_row {
+    display: flex;
+    margin-top: 72px;
+    #ViewBuyer_Btn {
+      color: white;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      background: red;
+      min-width: 130px;
+      font-size: 14px;
+      height: 32px;
+      transition: ease-in-out 0.3s;
+    }
+
+    #ViewBuyer_Btn:hover {
+      background: black;
+    }
+
+    #EditBuyer_Btn {
+      color: white;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      background: red;
+      min-width: 130px;
+      font-size: 14px;
+      height: 32px;
+      margin-left: 10px;
+      transition: ease-in-out 0.3s;
+    }
+
+    #EditBuyer_Btn:hover {
+      background: black;
+    }
+
+    .btn_img {
+      height: 21px;
+      width: 21px;
+      float: left;
+    }
+
+    .Arrow {
+      display: flex;
+      margin-left: 10px;
+    }
+    .Arrow figure img {
+      opacity: 1;
+      -webkit-transition: 0.25s ease;
+      transition: 0.25s ease;
+      min-width: 30px;
+      min-height: 30px;
+    }
+    .Arrow figure:hover img {
+      opacity: 0.2;
+      cursor: pointer;
+    }
+    #BuyerAmount_lbl {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+  }
+}
+
+@media screen and (max-width: 1250px) {
+  .Properties_Block,
+  .noProperties {
+    width: 85%;
+    margin-left: 85px;
+  }
+  .Buyers_Block,
+  .noBuyers {
+    width: 85%;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .Properties_Block,
+  .noProperties {
+    margin-left: 5px;
+    width: 98%;
+  }
+  .Buyers_Block,
+  .noBuyers {
+    margin-left: 5px;
+    width: 98%;
+  }
+}

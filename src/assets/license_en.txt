@@ -1,0 +1,8 @@
+{
+  "lang": "English",
+  "agree": "Agree",
+  "disagree": "Disagree",
+  "print": "Print",
+  "save": "Save",
+  "description": "This is the license text, only continue of you accept our Terms and Conditions"
+}

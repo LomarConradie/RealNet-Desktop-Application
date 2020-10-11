@@ -1,0 +1,191 @@
+<div id="RealNet_Properties" class="RealNet_Properties_Class" [ngClass]="currentListingItem != null ? 'model-open' :''">
+	<div id="Search_Bar" class="Search_Bar">
+		<div id="Search_Container" class="Search_Container">
+			<form id="Search_Form">
+				<div id="Top_Inputs" class="Top_Inputs">
+					<div class = "Listing_Type_Label">
+						<a>Listing Type:</a><br>
+						<select class="RentOrBuy_cmbx" [(ngModel)]="qListingType" name="TypeOfListing_cmbx"
+							id="TypeOfListing_cmbx">
+							<option value="Any">Any</option>
+							<option *ngFor="let listTypes of (listingDetailsItems | async)?.listingTypes"
+								[value]="listTypes">
+								{{listTypes}}
+							</option>
+						</select>  
+					</div> 
+
+					<div class = "Property_Type_Label">
+						<a>Property Type:</a><br>
+						<select class="TypeOfProperty_cmbx" [(ngModel)]="qPropertyType" name="TypeOfProperty_cmbx"
+							id="TypeOfProperty_cmbx">
+							<option value="Any">Any</option>
+							<option *ngFor="let propertyTypes of(propertyDetailsItems | async)?.propertyType"
+								[value]="propertyTypes">
+								{{propertyTypes}}
+							</option>
+						</select>
+					</div> 
+
+					<div class = "Area_Or_Suburb_Label">
+						<a>Area or Suburb:</a><br>
+						<input [(ngModel)]="qSuburbArea" name="AreaOrSuburb_edt" Type="text"
+							placeholder="Enter Area or Suburb" id="AreaOrSuburb_edt" class="AreaOrSuburb_edt"
+							oninput="setCustomValidity('')" 
+							oninvalid="this.setCustomValidity('Please enter a valid area or suburb.')">
+					</div>
+				</div>
+
+				<div id="Hidden_Inputs" class="Hidden_Inputs"
+					[style]="advancedOptions === '▼' ? 'display:none' : 'display:flex'">
+					<div class = "Min_Price_Label">
+						<a style="color: white;font-size: 14px;">Min Price:</a><br>
+						<input Type="text" [(ngModel)]="qMinPrice" name="RentalFrom_edt" id="RentalFrom_edt"
+							placeholder="E.g. R50 000" oninput="setCustomValidity('')"
+							pattern="[0-9]{1,10}(\.[0-9]{1,2})?"
+							oninvalid="this.setCustomValidity('Please enter a valid minimum price.')">
+					</div>
+
+					<div class = "Max_Price_Label">
+						<a style="color: white;font-size: 14px;">Max Price:</a><br>
+						<input Type="text" [(ngModel)]="qMaxPrice" name="RentalTo_edt" id="RentalTo_edt"
+							placeholder="e.g. R100 000" oninput="setCustomValidity('')"
+							pattern="[0-9]{1,10}(\.[0-9]{1,2})?"
+							oninvalid="this.setCustomValidity('Please enter a valid maximum price.')">
+					</div>
+
+					<div class = "Beds_Label">
+						<a style="color: white;font-size: 14px;">Beds:</a><br>
+						<select id="MinBeds_cmbx" [(ngModel)]="qBeds" name="MinBeds_cmbx">
+							<option value="Any">Any</option>
+							<option value="+1">1+</option>
+							<option value="+2">2+</option>
+							<option value="+3">3+</option>
+							<option value="+4">4+</option>
+							<option value="+5">5+</option>
+						</select>
+					</div>
+
+					<div class = "Only_Display_Properties_Label" style="min-width: 300px;">
+						<a id = "Display_Properties" style="color: white; font-size: 15px;">Only display properties...</a>
+						<div class="Dispaly_properties_checkGroup">
+							<div style="display: flex; flex-direction: row;">
+								<input [(ngModel)]="qFlatlet" type="checkbox" id="flatlet" name="DisplayProperties"
+									value="flatlet">
+								<a style="color: white; padding-bottom:5px; padding-left: 5px; font-size: 14px;"
+									for="flatlet"> with a Flatlet</a>
+							</div>
+
+							<div style="display: flex; flex-direction: row;">
+								<input [(ngModel)]="qPets" type="checkbox" id="Pets" name="DisplayProperties"
+									value="Pets">
+								<a style="color: white; padding-bottom:5px; padding-left: 5px; font-size: 14px;"
+									for="Pets"> where Pets are allowed</a>
+							</div>
+
+							<div style="display: flex; flex-direction: row;">
+								<input [(ngModel)]="qFurnished" type="checkbox" id="Furnished" name="DisplayProperties"
+									value="Furnished">
+								<a style="color: white; padding-bottom:5px; padding-left: 5px; font-size: 14px;"
+									for="Furnished"> that are Furnished</a>
+							</div>
+
+							<div style="display: flex; flex-direction: row;">
+								<input [(ngModel)]="qOnShow" type="checkbox" id="OnShow" name="DisplayProperties"
+									value="OnShow">
+								<a style="color: white; padding-bottom:5px; padding-left: 5px; font-size: 14px;"
+									for="OnShow"> that are On Show</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div id="Bottom_Buttons" class="Bottom_Buttons">
+					<div class = "Web_Ref_Label">
+						<a>Web Ref Number:</a><br>
+						<input [(ngModel)]="qWebReferenceNumber" type="text" name="WebRef_edt"
+							placeholder="Web Reference Number e.g. RL123" id="WebRef_edt">
+					</div>
+
+					<div>
+						<button id="MoreSearch_btn" (click)="toggleAdvancedOptions()">{{advancedOptions}} {{moreChoice}}
+							Search Options</button>
+					</div>
+
+					<div>
+						<button id="Search_btn" (click)="search()">Search</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<!-- Properties Title and showing page text and sort by dropdown HTML -->
+	<a id="Properties_txt">PROPERTIES</a><br>
+	<select id="SortBy_cmbx" name="SortBy_cmbx" [(ngModel)]="sortOrder" (change)="search()">
+		<option value="dateCreated+desc">Date (Newest - Oldest)</option>
+		<option value="dateCreated+asc">Date (Oldest - Newest)</option>
+		<option value="listingDetails.price+desc">Price (High - Low)</option>
+		<option value="listingDetails.price+asc">Price (Low - High)</option>
+	</select>
+
+	<div class="PropertyCount_div">
+		<a id="Property_Count">{{(listingItems | async)?.length}} Properties found</a>
+	</div>
+
+	<!-- Main display componenets and rectangle HTML -->
+	<div class="Property_View" @inOutAnimation *ngIf="listingItems | async as list else loadingTmpl">
+		<ng-container *ngFor="let listingItem of list; let numResults = count; first as isFirst">
+			<div class="Property_Box">
+				<div class="Property_Img">
+					<img [src]="listingItem.propertyPictureURL.pictureURLs[0] || 'assets/user-avatar-placeholder.png'"
+						alt="pic not available">
+					<button id="ViewProperty_Btn" (click)="openOverlay(listingItem)">View Property</button>	
+				</div>
+
+				<div class="Property_Details">
+					<h1>{{listingItem.propertyFeatures.bedroom}} Bedroom
+						{{listingItem.propertyDetails.propertyType}} {{listingItem.listingDetails.listingType}}
+						in
+						{{listingItem.propertyDetails.suburb}}</h1>
+					<li id="PropertyPrice">{{listingItem.listingDetails.price | currency:'ZAR':'symbol-narrow'}}</li>
+					<div class="Icons_row">
+						<img class="icons" src="assets/icons/Bedroom.png" title="Bedrooms" alt="Bedrooms">
+						<label class="Icons_Labels">{{listingItem.propertyFeatures.bedroom}}</label>
+						<img class="icons" src="assets/icons/bathtub.png" title="Bathrooms" alt="Bathrooms">
+						<label class="Icons_Labels">{{listingItem.propertyFeatures.bathroom}}</label>
+						<img class="icons" src="assets/icons/kitchen.png" title="Kitchens" alt="Kitchens">
+						<label class="Icons_Labels">2</label>
+					</div>
+					<li>Address: <a>{{listingItem.propertyDetails.erfNo || listingItem.propertyDetails.streetNo}}
+							{{listingItem.propertyDetails.streetName}}, {{listingItem.propertyDetails.suburb}},
+							{{listingItem.propertyDetails.province}}, {{listingItem.propertyDetails.zipCode}}</a></li>
+					<li *ngIf="listingItem.propertyDetails.landSize > 0">Land Size: <a>
+							{{listingItem.propertyDetails.landSize}} {{listingItem.propertyDetails.measurementType}}</a>
+					</li>
+					<li *ngIf="listingItem.propertyDetails.floorSize > 0">Floor Size:
+						<a>{{listingItem.propertyDetails.floorSize}}
+							{{listingItem.propertyDetails.measurementType}}</a>
+					</li>
+					<li>Bedrooms: <a>{{listingItem.propertyFeatures.bedroom}}</a></li>
+					<li>Bathrooms: <a>{{listingItem.propertyFeatures.bathroom}}</a></li>
+					<li>Listing Date: <a>{{listingItem.dateCreated.toDate() | date:'dd MMMM yyyy HH:mm'}}</a></li>
+				</div>
+			</div>
+		</ng-container>
+	</div>
+
+	<ng-template #loadingTmpl>
+		<div class="Property_View">
+			<app-loading-spinner></app-loading-spinner>
+		</div>
+	</ng-template>
+	<div *ngIf="(listingItems | async)?.length==0" class="Property_View">
+		<h1>No Records found :(</h1>
+	</div>
+
+</div>
+<!-- Main display componenets and rectangle HTML END -->
+
+<app-property-overlay *ngIf="currentListingItem != null" @modalPopup [overlayData]="currentListingItem"
+	(closeOverlay)="currentListingItem = $event" class="property-overlay"></app-property-overlay>

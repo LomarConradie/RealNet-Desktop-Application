@@ -1,0 +1,160 @@
+<body>
+	<div class="AddAgent_Main">
+		<div class="title">
+			<h1>
+				{{addAgentNames[currentIndex]}}
+			</h1>
+		</div>
+
+		<div class="container">
+			<ul class="progressBar">
+				<li class="bullet" [class.active]="currentIndex >= addAgentRoutes.indexOf('AgentDetails')">Agent<br>
+					Details
+				</li>
+				<li class="bullet" [class.active]="currentIndex >= addAgentRoutes.indexOf('AgentPictures')">Agent <br>
+					Image
+				</li>
+			</ul>
+		</div>
+
+		<!-- ==============================================Agent Details Form============================================================== -->
+		<form ngNativeValidate id="AgentDetails" #AgentDetails
+			[class.active]="addAgentRoutes[currentIndex] === 'AgentDetails'">
+			<div class="Inputs col3AgentDetails_input">
+				<div class="AgentDetails_row">
+					<div class="AgentDetails_col">
+						<div>
+							<a>First Name:</a><br>
+							<input #AgentName_Edt name="name" id="AgentName_Edt" [(ngModel)]="agentMapInsert.name"
+								placeholder="Enter First Name" oninput="setCustomValidity('')"
+								pattern="^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$" maxlength="50" required
+								oninvalid="this.setCustomValidity('Please enter a valid first name.')">
+						</div>
+						<div>
+							<a>Last Name:</a><br>
+							<input #AgentSurname_Edt name="surname" id="AgentSurname_Edt"
+								[(ngModel)]="agentMapInsert.surname" placeholder="Enter Last Name" required
+								oninput="setCustomValidity('')" pattern="^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$"
+								maxlength="50" oninvalid="this.setCustomValidity('Please enter a valid last name.')">
+						</div>
+						<div>
+							<a>Email:</a><br>
+							<input #AgentEmail_Edt name="email" id="AgentEmail_Edt" [(ngModel)]="agentMapInsert.email"
+								placeholder="Enter Email" oninput="setCustomValidity('')" required
+								pattern="(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|'(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*')@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])"
+								maxlength="120"
+								oninvalid="this.setCustomValidity('Please enter a valid email address.')">
+						</div>
+						<div>
+							<a>Contact Number:</a><br>
+							<input #AgentContact_Edt name="contact" id="AgentContact_Edt" required
+								[(ngModel)]="agentMapInsert.contactNum" placeholder="Enter Contact Number"
+								oninput="setCustomValidity('')" pattern="(\+0?1\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$"
+								maxlength="13" oninvalid="this.setCustomValidity('Please enter a valid contact number.')">
+						</div>
+						<!-- <div>
+							<a>Username:</a><br>
+							<input #AgentUsername_Edt name="username" id="AgentUsername_Edt"
+								[(ngModel)]="agentMapInsert.name" placeholder="Enter Username">
+						</div> -->
+						<div *ngIf="!agentMapInsert.isEdit">
+							<a>Password:</a><br>
+							<input #AgentPassword_Edt name="password" id="AgentPassword_Edt" type="password"
+								placeholder="Enter Password" [(ngModel)]="agentMapInsert.password"
+								oninput="setCustomValidity('')" minlength="6"
+								maxlength="120" required
+								oninvalid="this.setCustomValidity('Please enter a valid password that is at least 6 characters in length.')">
+						</div>
+
+						<div class="radio-inputs">
+							<a>Administrator?</a>
+							<label >
+								<input #Admin_Yes type="radio" id="Admin_Yes" [value]="true" name="Admin_group" 
+								[(ngModel)]="agentMapInsert.admin" required>
+								<label for="Admin_Yes">Yes</label>
+							</label>
+							<label>
+								<input #Admin_No type="radio" id="Admin_No" [value]="false" name="Admin_group" 
+								[(ngModel)]="agentMapInsert.admin" required>
+								<label for="Admin_No">No</label>
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
+		<!-- ==============================================Agent Pictures Form============================================================= -->
+		<form id="AgentPictures" #AgentPictures [class.active]="addAgentRoutes[currentIndex] === 'AgentPictures'">
+			<div class="Inputs col3AgentPictures_input">
+				<div class="AgentPictures_row">
+					<div class="AgentPictures_col">
+						<div class="dropzone" appDropzone (hovered)="toggleHover($event)" (dropped)="onDrop($event)"
+							[class.hovering]="isHovering">
+
+							<div class="file">
+								<label class="file-label" for="filechoose">
+									<strong>Choose a Picture </strong>
+									<span>or drag it here</span>
+								</label>
+								<input class="file-input" id="filechoose" type="file"
+									(change)="onDrop($event.target.files)"
+									accept=".png,.jpeg,.jpg, image/png,image/jpeg,image/jpg">
+							</div>
+						</div>
+
+						<div *ngIf="fileError !== ''" class="file-error">
+							<span>{{fileError}}</span>
+						</div>
+
+						<div class="photo-thumbs" [@inOutAnimation] *ngIf="agentMapInsert.agentPicUrl != ''">
+							<div class="photo-thumb-container">
+								<img [src]="agentMapInsert.agentPicUrl">
+								<div class="photo-thumb-delete" (click)="deletePicture(agentMapInsert.agentPicUrl)">
+									<svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
+										class="delete-icon">
+										<path fill="currentColor"
+											d="M296 432h16a8 8 0 0 0 8-8V152a8 8 0 0 0-8-8h-16a8 8 0 0 0-8 8v272a8 8 0 0 0 8 8zm-160 0h16a8 8 0 0 0 8-8V152a8 8 0 0 0-8-8h-16a8 8 0 0 0-8 8v272a8 8 0 0 0 8 8zM440 64H336l-33.6-44.8A48 48 0 0 0 264 0h-80a48 48 0 0 0-38.4 19.2L112 64H8a8 8 0 0 0-8 8v16a8 8 0 0 0 8 8h24v368a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48V96h24a8 8 0 0 0 8-8V72a8 8 0 0 0-8-8zM171.2 38.4A16.1 16.1 0 0 1 184 32h80a16.1 16.1 0 0 1 12.8 6.4L296 64H152zM384 464a16 16 0 0 1-16 16H80a16 16 0 0 1-16-16V96h320zm-168-32h16a8 8 0 0 0 8-8V152a8 8 0 0 0-8-8h-16a8 8 0 0 0-8 8v272a8 8 0 0 0 8 8z"
+											class="icon-primary"></path>
+									</svg>
+									<label>DELETE</label>
+								</div>
+							</div>
+						</div>
+
+						<!-- <h3 *ngIf="pics.length > 0">Completed Uploads: {{pictureURLs.length}}/{{pics.length}}
+						</h3>
+						<hr *ngIf="pics.length > 0"> -->
+
+						<div [@inOutAnimation]="pics.length">
+							<div *ngFor="let file of pics; first as isFirst">
+								<app-upload-task [file]="file" [itemID]="'AgentPictures/' + globaldocID"
+									(URLAdded)="addPictureURL($event)" (fileCanceled)="removePictureFile($event)"
+									(fileDeleted)="removePictureURL()">
+								</app-upload-task>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
+		<button *ngIf="previousIndex > - 1" id="previous" (click)="onPreviousButton()"
+			[disabled]="loading">Previous</button>
+		<!-- Next BTN will display while the navigation index is not on the last item -->
+		<button *ngIf="nextIndex < addAgentRoutes.length" id="next" type="submit" (click)="onNextButton()">Next</button>
+		<!-- Finish BTN will display when the navigation index is on the last item -->
+		<button *ngIf="currentIndex === addAgentRoutes.length - 1" id="finish" type="submit" (click)="onFinishButton()"
+			[disabled]="uploading || loading">
+			<app-loading-spinner *ngIf="loading; else notLoading"></app-loading-spinner>
+			<ng-template #notLoading>Finish</ng-template>
+		</button>
+		<!-- <button id="next" type="submit"
+			(click)="createAgent(AgentEmail_Edt.value, AgentPassword_Edt.value)">Next</button> -->
+
+		<!--<button id="finish" type="submit">
+			<app-loading-spinner *ngIf="loading; else notLoading"></app-loading-spinner>
+			<ng-template #notLoading>Finish</ng-template>
+		</button>-->
+	</div>
+</body>

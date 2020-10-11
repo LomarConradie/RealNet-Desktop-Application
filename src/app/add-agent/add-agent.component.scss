@@ -1,0 +1,471 @@
+.AddAgent_Main {
+  width: auto;
+  border-style: solid;
+  height: auto;
+  position: absolute;
+  transform: height 0.8s;
+  left: 20px;
+  right: 20px;
+  top: auto;
+  padding-bottom: 10px;
+}
+
+form {
+  animation: fade-in 1s ease forwards;
+  /* animation-delay: 0.3s; */
+  opacity: 0;
+  display: none;
+}
+
+input:invalid,
+select:invalid,
+textarea:invalid {
+  box-shadow: none;
+}
+
+form.submitted {
+  input:invalid,
+  select:invalid,
+  textarea:invalid {
+    box-shadow: 0px 0px 5px 0px red;
+  }
+}
+
+form.active {
+  display: contents;
+}
+
+a,
+input,
+input::placeholder,
+ul,
+h1,
+h3,
+span,
+textarea,
+select,
+img {
+  transition: 0.5s ease;
+  animation: 0.75s ease forwards fade-in;
+}
+
+input {
+  align-self: center;
+}
+
+label {
+  animation: 0.75s ease forwards fade-in;
+}
+
+ul {
+  li,
+  li::before {
+    transition: 0.5s 0.25s ease;
+  }
+  li::after {
+    transition: 0.5s ease;
+  }
+}
+
+/* Title bar style Start */
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  text-align: center;
+  background: black;
+  padding: 20px 0;
+}
+
+.title h1 {
+  color: white;
+  width: 80%;
+}
+
+.title section {
+  display: table-cell;
+  vertical-align: middle;
+}
+/* Title bar style end */
+
+/* this is the progress bar code */
+.container {
+  /*This is used to set the div size to the full width of the screen*/
+  width: 100%;
+  margin-top: 20px;
+}
+
+.progressBar li {
+  /*In this section the bullets are remove from the list 
+          and the list items are aligned next to each other. This
+          also spaces the elements from each other and sets the text size*/
+  list-style-type: none;
+  float: left;
+  width: 50%;
+  position: relative;
+  text-align: center;
+  font-size: small;
+  color: gray;
+  /* transition: ease 1s; */
+  /* animation: 0.25s ease left-out; */
+}
+
+.progressBar li::before {
+  /*This section specifies the creation of the dots above the 
+          elements which are used as reference to the phase you are currently 
+          on and the phases to come*/
+  content: "";
+  width: 10px;
+  height: 10px;
+  border: 1px solid lightgrey;
+  display: block;
+  text-align: center;
+  margin: 0 auto 10px auto;
+  border-radius: 50%;
+  background-color: lightgrey;
+  z-index: -1;
+  /* transition: ease 1s; */
+  /* animation: 0.25s ease left-out; */
+}
+
+.progressBar li::after {
+  /*This section creates the line that connects each dot*/
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  /* background-color: lightgrey; */
+  top: 5px;
+  left: -50%;
+  z-index: -1;
+  background: linear-gradient(to right, red 50%, lightgray 50%);
+  background-size: 200% 100%;
+  background-position: right bottom;
+}
+
+.progressBar li:first-child::after {
+  /*This section removes the part of the line sticking out from one
+          dot and not connecting to anything*/
+  content: none;
+}
+
+.progressBar li.active {
+  /*This specifies that if a stage is complete the dot will become red*/
+  color: red;
+}
+
+.progressBar li.active::before {
+  border-color: red;
+  background-color: red;
+}
+
+.progressBar li.active::after {
+  /*This section changes the position of the background of the line as you move through the phases*/
+  background-position: left bottom;
+}
+
+//////////////////////////////////* inputs code *///////////////////////////////////////////////////////////
+.Inputs {
+  margin-top: 115px;
+  text-align: center;
+  width: 25%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.Inputs a {
+  color: black;
+  font-weight: bolder;
+  padding-top: 15px;
+  float: left;
+  text-align: left;
+}
+
+.Inputs input {
+  outline: 0;
+  border: none;
+  border-bottom: 2px solid black;
+  border-radius: 2px;
+  width: 100%;
+  padding-bottom: 10px;
+}
+
+.Inputs select {
+  outline: 0;
+  border: none;
+  border-bottom: 2px solid black;
+  border-radius: 2px;
+  width: 100%;
+  padding-bottom: 10px;
+}
+
+@keyframes fade-in {
+  0% {
+    /* transform: translateX(200px); */
+    opacity: 0;
+    /* display: none; */
+  }
+
+  100% {
+    /* transform: translateX(0px); */
+    opacity: 1;
+    /* display: contents; */
+  }
+}
+
+.col3_input {
+  width: 95%;
+}
+
+@media screen and (max-width: 1120px) {
+  .col3_input {
+    width: 70%;
+  }
+}
+
+.col3AgentDetails_input {
+  width: 35%;
+}
+
+.AgentDetails_col {
+  float: left;
+  padding: 30px;
+  height: auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.radio-inputs {
+  display: flex;
+  flex-direction: column;
+
+  label {
+    display: flex;
+
+    input {
+      width: min-content;
+    }
+  }
+}
+
+.AgentDetails_row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+@media screen and (max-width: 1120px) {
+  .col3AgentDetails_input {
+    width: 70%;
+  }
+}
+
+//AGENT PICTURES
+.col3AgentPictures_input {
+  width: 70%;
+}
+
+.AgentPictures_row:after {
+  /* padding-top: 15px; */
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.AgentPictures_col {
+  float: left;
+  padding: 30px;
+  height: auto;
+  width: 100%;
+  box-sizing: border-box;
+
+  .photo-thumbs {
+    display: flex;
+    height: 7.5rem;
+    justify-content: flex-start;
+    width: 100%;
+    overflow-x: auto;
+
+    .photo-thumb-container {
+      position: relative;
+      display: flex;
+      width: auto;
+      height: 100%;
+      justify-content: center;
+
+      img {
+        width: auto;
+        height: 100%;
+      }
+
+      .photo-thumb-delete {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 100%;
+        width: 100%;
+        opacity: 0;
+        transition: 0.5s ease;
+        background-color: #ba0000c9;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .delete-icon {
+          max-height: 60%;
+          max-width: 60%;
+        }
+      }
+
+      .photo-thumb-delete:hover {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.dropzone {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 300px;
+  border: 2px dashed black;
+  padding: 0px;
+  margin: 15px;
+  border-radius: 5px;
+  background-color: white;
+  background-image: url("src/assets/icons/file-upload.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100px;
+  background-position-y: 25%;
+  transition: ease 0.5s;
+  animation: 0.75s ease forwards fade-in;
+  color: #999;
+
+  label {
+    transition: 0.5s ease;
+  }
+
+  strong {
+    color: red;
+    transition: ease 0.25s;
+    animation: 0.75s ease forwards fade-in;
+  }
+
+  &.hovering {
+    transition: ease 0.5s;
+    border: 2px solid black;
+    color: red !important;
+    background-color: rgba(80, 25, 116, 0.15);
+    padding: 15px;
+    margin: 0px;
+    strong {
+      color: #999;
+    }
+  }
+
+  .file-input {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+
+  .file {
+    margin-top: 50px;
+  }
+
+  .file-label {
+    font-size: 1.2em;
+  }
+
+  .file-label:hover {
+    strong {
+      color: darkmagenta;
+    }
+  }
+}
+
+.file-error {
+  color: red;
+  font-size: bold;
+}
+
+//BUTTONS
+#next {
+  float: right;
+  width: 120px;
+  color: white;
+  font-size: 15px;
+  background-color: red;
+  border: none;
+  height: 40px;
+  border-radius: 20px;
+  outline: none;
+  font-weight: bold;
+  margin-top: 2%;
+  margin-right: 2%;
+  transition: ease 0.5s;
+  cursor: pointer;
+}
+
+#next:hover {
+  background-color: darkmagenta;
+}
+
+#finish {
+  float: right;
+  width: 120px;
+  color: white;
+  font-size: 15px;
+  background-color: red;
+  border: none;
+  height: 40px;
+  border-radius: 20px;
+  outline: none;
+  font-weight: bold;
+  margin-top: 2%;
+  margin-right: 2%;
+  float: right;
+  transition: ease 0.5s;
+  cursor: pointer;
+}
+
+#finish:hover {
+  background-color: darkmagenta;
+}
+
+#finish:disabled {
+  background-color: gray;
+}
+
+#previous {
+  float: left;
+  width: 120px;
+  color: white;
+  font-size: 15px;
+  background-color: red;
+  border: none;
+  height: 40px;
+  border-radius: 20px;
+  outline: none;
+  font-weight: bold;
+  margin-top: 2%;
+  margin-left: 2%;
+  transition: ease 0.5s;
+  cursor: pointer;
+}
+
+#previous:hover {
+  background-color: darkmagenta;
+}
+
+#previous:disabled {
+  background-color: gray;
+}

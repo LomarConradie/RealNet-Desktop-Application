@@ -1,0 +1,117 @@
+<div id="RealNet_Agents" class="RealNet_AddAgent">
+    <div class="SearchBar_div">
+        <div class="SearchBarInfo_div">
+            <div class="SearchBarRow_first">
+                <div>
+                    <a>Name/Surname:</a><br>
+                    <input #AgentSearchSurname_edt id="AgentSearchSurname_edt" required type="text"
+                        name="AgentSearchSurname" [(ngModel)]="qNameSurname" placeholder="Enter Name/Surname"
+                        oninput="setCustomValidity('')" maxlength="50"
+                        oninvalid="this.setCustomValidity('Please enter a valid name/surname.')">
+                </div>
+
+                <div>  
+                    <a>Contact Number:</a><br>
+                    <input #ContactNumber_edt id="ContactNumber_edt" required type="text" [(ngModel)]="qContactNum"
+                        placeholder="Enter Contact Number" maxlength="50">
+                </div>
+
+                <div>
+                    <a>Email:</a><br>
+                    <input #AgentSearchEmail_edt id="AgentSearchEmail_edt" [(ngModel)]="qEmail" required type="text"
+                        name="AgentSearchEmail" placeholder="Enter Email" maxlength="50">
+                </div>
+            </div>
+
+            <div class="SearchBarRow_second" [style]="advancedOptions === '▼' ? 'display:none' : 'display:flex'">
+                <!-- <div>
+                    <a>Listing Type:</a><br>
+                    <select #RentOrBuy_cmbx id="RentOrBuy_cmbx" name="RentOrBuy" [(ngModel)]="qListingType">
+                        <option value="Any">Any</option>
+                        <option *ngFor="let listTypes of (listingDetailsItems | async)?.listingTypes"
+                            [value]="listTypes">
+                            {{listTypes}}
+                        </option>
+                    </select>
+                </div> --> 
+                <div class="radio-inputs">
+                    <a id = "Only_Show_Label" >Only Show...</a>
+                    <div style="display: flex; flex-direction: row;">
+                        <input [(ngModel)]="qAdmin" type="checkbox" id="admin" name="DisplayAdmins"
+                            value="admin">
+                        <a style="color: white; padding: 0 0 0 5px; font-size: 14px;" for="flatlet"> Administrators</a>
+                    </div>
+                    <!-- <label>
+                        <input #Admin_Yes type="radio" id="Admin_Yes" [(ngModel)]="qAdmin" [value]="true" name="Admin_group" required>
+                        <label for="Admin_Yes">Yes</label>
+                    </label>
+                    <label>
+                        <input #Admin_No type="radio" id="Admin_No" [value]="false" name="Admin_group" required>
+                        <label for="Admin_No">No</label>
+                    </label> -->
+                </div>
+            </div>
+
+            <div class="SearchBarRow_Third">
+                <!-- <div> -->
+                    <!-- The goal of this combobox is to allow the user to search for specific agents that manage specific suburb's properties -->
+                    <!-- <a>Agent Suburb:</a><br>
+                    <select #AgentSearchSuburb_cmbx id="AgentSearchSuburb_cmbx" required name="SuburbTypeSelect"
+                        [(ngModel)]="qSuburb">
+                        <option value="Any">Any</option>
+                        <option *ngFor="let propSub of (propertyDetailsItems | async)?.Area" [value]="propSub">
+                            {{propSub}}</option>
+                    </select>
+                </div> -->
+
+                <div>
+                    <button id="MoreSearch_btn" (click)="moreOptions()">{{advancedOptions}} {{moreChoice}} Search
+                        Options</button>
+                </div>
+
+                <div>
+                    <button id="AgentSearch_btn" (click)="search()">Search</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a id="AgentsTitle_txt">AGENTS</a><br>
+    <select id="SortBy_cmbx" name="SortBy_cmbx" [(ngModel)]="sortOrder" (change)="search()">
+        <option value="dateCreated+desc">Date (Newest - Oldest)</option>
+        <option value="dateCreated+asc">Date (Oldest - Newest)</option>
+        <option value="surname+asc">Surname (A - Z)</option>
+        <option value="surname+desc">Surname (Z - A)</option>
+    </select>
+    <div class="Agent_Count_div">
+        <a id="Agent_Count">{{(agentItems | async)?.length}} Agents found</a>
+    </div>
+
+
+    <!-- Agents Main Display Box -->
+    <div class="Agent_View" [@inOutAnimation] *ngIf="agentItems | async as list; else loadingTmpl">
+        <ng-container *ngFor="let agent of list">
+            <div class="Agent_Box">
+                <div class="Agent_Img">
+                    <img [src]="agent.agentPicUrl || 'assets/user-avatar-placeholder.png'" alt="">
+                    <button id="Edit_Agent" [routerLink]="['/addagent/',agent.id]">Edit Agent</button>
+                </div>
+                <div class="Agent_Details">
+                    <h2>{{agent.name}} {{agent.surname}}</h2>
+                    <li>Email: <a>{{agent.email}}</a></li>
+                    <li>Contact Number: <a>{{agent.contactNum}}</a></li>
+                    <li>Account created: <a>{{agent.dateCreated.toDate() | date:'dd MMMM yyyy HH:mm'}}</a></li>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+
+    <ng-template #loadingTmpl>
+        <div class="Agent_View">
+            <app-loading-spinner></app-loading-spinner>
+        </div>
+    </ng-template>
+    <div *ngIf="(agentItems | async)?.length==0" class="Agent_View">
+        <h1>No Records found :(</h1>
+    </div>
+</div>

@@ -1,0 +1,151 @@
+<div class="HomePage_Main">
+    <div class="TopImage_div">
+        <div class="WelcomeText_div"> 
+            <h1>Welcome</h1>
+            <a *ngIf="auth.user$ | async as loggedInUser">{{loggedInUser.name}} {{loggedInUser.surname}}</a>
+        </div>
+        <div class="QuickAccess_div">
+            <button class="QuickAccess_btn" id="PropertiesView_btn" title="View Properties" alt="View Properties">
+                <img src="assets/icons/properties_icon.png" [routerLink]="['/properties']"></button>
+            <button class="QuickAccess_btn" id="PropertiesAdd_btn" title="Add Properties" alt="Add Properties">
+                <img src="assets/icons/AddHome.png" [routerLink]="['/addproperty']"></button>
+            <button class="QuickAccess_btn" id="BuyersView_btn" title="View Buyers" alt="View Buyers">
+                <img src="assets/icons/person.png" [routerLink]="['/buyers']"></button>
+            <button class="QuickAccess_btn" id="BuyersAdd_btn" title="Add Buyers" alt="Adde Buyers">
+                <img src="assets/icons/addPerson.png" [routerLink]="['/addbuyer']"></button>
+        </div>
+    </div>
+
+    <div class="Top">
+        <label>Find Properties and Buyers By Suburb:</label>
+        <input class="Input" type="text" name="SelectSuburb" id="SelectSuburb_txt" placeholder="Enter Suburb"
+            [(ngModel)]="qSuburb" (keyup)="search()">
+    </div>
+
+    <div class="Title">
+        <h2>YOUR PROPERTIES</h2>
+    </div>
+    <div>
+        <div class="Properties_Block">
+            <ng-container *ngIf="listingItems | async as list; else loadingProperties">
+                <ng-container *ngIf="list.length > 0; else noProperties">
+                    <div class="Properties_Block_img">
+                        <img [src]="list[listingIndex].propertyPictureURL.pictureURLs[0] || 'assets/user-avatar-placeholder.png'"
+                            alt='No Image'>
+                    </div>
+                    <div class="Properties_Block_Content">
+                        <a id="PropertyPrice">{{list[listingIndex].listingDetails.price | currency:'ZAR':'symbol-narrow'}}</a><br>
+                        <a id="PropertyName">{{list[listingIndex].propertyFeatures.bedroom}} Bedroom
+                            {{list[listingIndex].propertyDetails.propertyType}}
+                            {{list[listingIndex].listingDetails.listingType}}
+                            in
+                            {{list[listingIndex].propertyDetails.suburb}}</a>
+                        <div class="Icons_row">
+                            <img class="icons" src="assets/icons/Bedroom.png" alt="Bedrooms">
+                            <label class="Icons_Labels">{{list[listingIndex].propertyFeatures.bedroom}}</label>
+                            <img class="icons" src="assets/icons/bathtub.png" alt="Bathrooms">
+                            <label class="Icons_Labels">{{list[listingIndex].propertyFeatures.bathroom}}</label>
+                            <img class="icons" src="assets/icons/kitchen.png" alt="Kitchens">
+                            <label class="Icons_Labels">{{list[listingIndex].propertyFeatures.kitchen}}</label>
+                            <img class="icons" src="assets/icons/couch.png" alt="Living Rooms">
+                            <label class="Icons_Labels">{{list[listingIndex].propertyFeatures.lounge}}</label>
+                        </div>
+                        <div class="buttons_row">
+                            <button id="ViewProperty_Btn" (click)="openPropertyOverlay(list[listingIndex])"><img
+                                    id="PropertyBtn_img" class="btn_img" src="assets/icons/view_icon.png">View
+                                Property</button>
+                            <div class="Arrow">
+                                <figure><img (click)="decrementProperties()" id="ArrowLeft"
+                                        src="assets/icons/ArrowLeft.png">
+                                </figure>
+                                <a id="PropertyAmount_lbl">{{listingIndex + 1}} of {{list.length}} Properties</a>
+                                <figure><img (click)="incrementProperties()" id="ArrowRight"
+                                        src="assets/icons/ArrowRight.png">
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </ng-container>
+            <ng-template #loadingProperties>
+                <app-loading-spinner class="center-template"></app-loading-spinner>
+            </ng-template>
+            <ng-template #noProperties>
+                <h1 class="center-template">No properties found :(</h1>
+            </ng-template>
+        </div>
+    </div>
+
+    <div class="Title">
+        <h2>AVAILABLE BUYERS</h2>
+    </div>
+
+    <div class="Buyers_Content">
+        <div class="Buyers_Block">
+            <ng-container *ngIf="buyersItems | async as list; else loadingBuyers">
+                <ng-container *ngIf="list.length > 0; else noBuyers">
+                    <div class="AgentPicture_div">
+                        <img id="Agent_Img"
+                            [src]="list[buyerIndex].addBuyerPictureURL || 'assets/user-avatar-placeholder.png'"
+                            alt="pic not available">
+                    </div>
+                    <div class="AgentInfo_div">
+                        <label id="AgentName_lbl">{{list[buyerIndex].personalDetails.firstName}}
+                            {{list[buyerIndex].personalDetails.lastName}}</label><br>
+                        <a id="primary">Primary Contact Details:</a>
+                        <li class="li_class">Email: <a
+                                class="a_data">{{list[buyerIndex].personalDetails.emailAddress}}</a>
+                        </li>
+                        <li class="li_class">Contact Number: <a
+                                class="a_data">{{list[buyerIndex].personalDetails.contactNumber}}</a></li>
+                        <a id="secondary">Preferences:</a>
+                        <div class="Icons_row">
+                            <img class="icons" src="assets/icons/Bedroom.png" alt="Bedrooms">
+                            <label class="Icons_Labels">2</label>
+                            <img class="icons" src="assets/icons/bathtub.png" alt="Bathrooms">
+                            <label class="Icons_Labels">2</label>
+                            <img class="icons" src="assets/icons/kitchen.png" alt="Kitchens">
+                            <label class="Icons_Labels">2</label>
+                            <img class="icons" src="assets/icons/couch.png" alt="Living Rooms">
+                            <label class="Icons_Labels">2</label>
+                        </div>
+                        <li class="li_class">Price Range: <a
+                                class="a_data">{{list[buyerIndex].requirements.minPrice | currency:'ZAR':'symbol-narrow'}}
+                                -
+                                {{list[buyerIndex].requirements.maxPrice | currency:'ZAR':'symbol-narrow'}}</a>
+                        </li>
+                        <li class="li_class">Furnished: <a class="a_data">Yes</a></li>
+                        <li class="li_class">Land Size: <a class="a_data">200m2</a></li>
+
+                        <div class="buttons_row">
+                            <button id="ViewBuyer_Btn" (click)="openBuyerOverlay(list[buyerIndex])"><img
+                                    id="BuyerBtn_img" class="btn_img" src="assets/icons/view_icon.png">View
+                                Buyer</button>
+                            <div class="Arrow">
+                                <figure (click)="decrementBuyer()"><img id="ArrowLeft" src="assets/icons/ArrowLeft.png">
+                                </figure>
+                                <a id="BuyerAmount_lbl">{{buyerIndex + 1}} of {{list.length}} Buyers</a>
+                                <figure (click)="incrementBuyer()"><img id="ArrowRight"
+                                        src="assets/icons/ArrowRight.png">
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </ng-container>
+            <ng-template #loadingBuyers>
+                <app-loading-spinner class="center-template"></app-loading-spinner>
+            </ng-template>
+            <ng-template #noBuyers>
+                <h1 class="center-template">No buyers found :(</h1>
+            </ng-template>
+        </div>
+    </div>
+</div>
+
+
+<app-property-overlay *ngIf="currentListingItem != null" @modalPopup [overlayData]="currentListingItem"
+    (closeOverlay)="currentListingItem = $event" class="property-overlay"></app-property-overlay>
+
+<app-buyer-overlay *ngIf="currentBuyerItem != null" @modalPopup [overlayData]="currentBuyerItem"
+    (closeOverlay)="currentBuyerItem = $event" class="buyer-overlay"></app-buyer-overlay>

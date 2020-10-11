@@ -1,0 +1,448 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border: none;
+}
+
+a,
+input,
+input::placeholder,
+ul,
+h1,
+h3,
+span,
+textarea,
+select,
+img {
+  transition: 0.5s ease;
+  animation: 0.75s ease forwards fade-in;
+}
+
+@keyframes fade-in {
+  0% {
+    /* transform: translateX(200px); */
+    opacity: 0;
+    /* display: none; */
+  }
+
+  100% {
+    /* transform: translateX(0px); */
+    opacity: 1;
+    /* display: contents; */
+  }
+}
+
+.property-overlay {
+  background: rgba(128, 128, 128, 0.5);
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  z-index: 10;
+}
+
+.RealNet_Properties_Class.model-open {
+  overflow-y: hidden;
+}
+
+.Search_Bar {
+  background: black; 
+  top: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.Search_Container {
+  display: inline-block;
+  padding-top: 20px;
+  padding-bottom: 10px;
+  width: 500px;
+  margin-left:-440px;
+  a {
+    color: white;
+    padding-bottom: 4px;
+  }
+}
+
+#Search_Form{
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+
+
+.Top_Inputs {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+  width: 50%;
+}
+
+
+.Property_Type_Label a{
+  margin-left: -87px;
+}
+
+.Listing_Type_Label a{
+  margin-left: -68px;
+}
+
+
+.Area_Or_Suburb_Label a{
+  margin-left: -200px;
+}
+
+
+.Web_Ref_Label a{
+  margin-left: -230px;
+}
+
+.Min_Price_Label a{
+  margin-left: -74px;
+}
+
+.Max_Price_Label a{
+  margin-left: -71px;
+}
+
+.Beds_Label a{
+  margin-left: -43px;
+}
+
+.Only_Display_Properties_Label #Display_Properties{
+  margin-left: -118px;
+}
+
+
+.RentOrBuy_cmbx {
+  width: 150px;
+  min-height: 32px;
+  margin-right: 15px;
+  padding-left: 10px;
+  padding-bottom: 2.5px;
+}
+
+.TypeOfProperty_cmbx {
+  width: 185px;
+  min-height: 32px;
+  margin-right: 15px;
+  padding-left: 10px;
+  padding-bottom: 2.5px;
+}
+
+.AreaOrSuburb_edt {
+  width: 324px;
+  min-height: 32px;
+  padding-left: 10px;
+}
+
+.Hidden_Inputs {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 5px;
+  width: 50%;
+}
+
+#TypeOfListing_cmbx{
+  margin-top: 5px;
+}
+
+#TypeOfProperty_cmbx{
+  margin-top: 5px;
+}
+
+#AreaOrSuburb_edt{
+  margin-top: 5px;
+}
+
+#WebRef_edt{
+  margin-top: 5px;
+}
+
+.Dispaly_properties_checkGroup{
+  margin-top: 5px;
+}
+
+
+#RentalTo_edt {
+  width: 125px;
+  min-height: 32px;
+  margin-right: 15px;
+  padding-left: 10px;
+  margin-top: 5px;
+}
+
+#RentalFrom_edt {
+  width: 125px;
+  min-height: 32px;
+  margin-right: 15px;
+  padding-left: 10px;
+  margin-top: 5px;
+}
+
+#MinBeds_cmbx {
+  width: 65px;
+  min-height: 32px;
+  margin-right: 15px;
+  padding-left: 10px;
+  margin-top: 5px;
+}
+
+.Bottom_Buttons {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 5px;
+  width: 50%;
+}
+
+#WebRef_edt {
+  width: 250px;
+  min-height: 32px;
+  margin-right: 125px;
+  margin-bottom: 15px;
+  padding-left: 10px;
+}
+ 
+#MoreSearch_btn {
+  overflow: hidden;
+  background-color: black;
+  border: solid;
+  border-color: white;
+  border-width: 0.5px;
+  color: white;
+  text-align: center;
+  font-size: 15px;
+  width: 200px;
+  transition: all 0.5s;
+  cursor: pointer;
+  height: 32px;
+  outline: none;
+  margin-left: -10px;
+  margin-top: 24px;
+}
+
+#MoreSearch_btn:hover {
+  background-color: white;
+  color: rgb(66, 29, 102);
+}
+
+#Search_btn {
+  overflow: hidden;
+  border-radius: 2px;
+  background-color: red;
+  border: none;
+  color: white;
+  text-align: center;
+  font-size: 15px;
+  width: 110px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+  height: 32px;
+  outline: none;
+  margin-top: 24px;
+  margin-left: 15px;
+}
+
+#Search_btn:hover {
+  background-color: white;
+  color: rgb(66, 29, 102);
+}
+
+/* Properties Title and showing page text and sort by dropdown CSS */
+#Properties_txt {
+  font-size: 50px;
+  margin-left: 10.07%;
+}
+
+#SortBy_cmbx {
+  height: 32px;
+  width: 200px;
+  margin-left: 10.07%;
+  border: solid 1px;
+  padding-left: 10px;
+}
+
+.PropertyCount_div {
+  margin-left: 10.07%;
+  margin-top: 15px;
+}
+
+#Property_Count {
+  color: black;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+/* Properties Title and showing page text and sort by dropdown CSS END */
+.Property_View {
+  display: flexbox;
+  position: absolute;
+  width: 80%;
+  margin-left: 10.07%;
+  margin-right: auto;
+  transition: all 0.75s ease;
+}
+
+
+
+.Property_Box {
+  border: solid 2px gray;
+  margin: 0 auto;
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  transition: all 0.5s ease;
+  transform: scale(1);
+}
+
+.Property_Box:hover {
+  background-image: linear-gradient(to top right, rgba(222, 62, 27, 0.15), rgba(80, 25, 116, 0.15));
+  transform: scale(1.03);
+  .Property_Img{
+    filter: drop-shadow(0 0 1rem black);
+    transition: all 0.5s ease;
+  }
+  #ViewProperty_Btn{
+    display: block;
+  }
+}
+
+.Property_Details {
+  width: 100%;
+  height: 100%;
+  margin-left: 5px;
+  #PropertyPrice {
+    color: red;
+    font-weight: bold;
+    font-size: 28px;
+  }
+  .Icons_row {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    display: flex;
+    .icons {
+      height: 25px;
+      width: 25px;
+      margin-right: 5px;
+    }
+    .Icons_Labels {
+      color: red;
+      font-weight: bolder;
+      font-size: 17px;
+      margin-right: 10px;
+    }
+  }
+  li {
+    list-style: none;
+    color: black;
+  }
+  a {
+    color: black;
+  }
+}
+
+.showing {
+  margin-bottom: 15px;
+  margin-left: 45%;
+}
+
+@keyframes fade-and-grow-in {
+  0% {
+    opacity: 0;
+    scale: (0);
+  }
+  100% {
+    opacity: 1;
+    scale: (1);
+  }
+}
+
+/* Back to top Button CSS */
+.BackToTop_Btn {
+  position: fixed;
+  overflow: hidden;
+  right: 15px;
+  bottom: -40px;
+  border-radius: 2px;
+  background-color: red;
+  border: none;
+  color: white;
+  text-align: center;
+  font-size: 15px;
+  width: 150px;
+  height: 40px;
+  transition: all 0.5s;
+  cursor: pointer;
+  outline: none;
+}
+
+.BackToTop_Btn.active {
+  bottom: 15px;
+}
+
+.BackToTop_Btn:hover {
+  background-color: rgb(66, 29, 102);
+}
+/* Back to top Button CSS END */
+
+select {
+  -webkit-appearance: none;
+  /* for webkit (safari, chrome) compatibility */
+  -moz-appearance: none;
+  /* for firefox compatibility */
+  appearance: none;
+  background-image: url("src/assets/icons/expand-button.svg");
+  background-repeat: no-repeat;
+  background-position: right;
+  background-size: 15px;
+  background-position-x: 99%;
+  animation: 0.75s ease forwards fade-in;
+}
+
+.Property_Img {
+  align-items: center;
+  max-width: 380px;
+  max-height: 270px;
+  justify-content: center;
+  margin: 5px;
+  img {
+    max-width: 380px;
+    max-height: 270px;
+    min-width: 380px;
+    min-height: 270px;
+    border: 1px black solid;
+  }
+  button{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: none;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    border: none;
+    background: red;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    width: 130px;
+    height: 30px;
+    cursor: pointer;
+    transition: ease-in-out 0.3s;
+    outline: none;
+  }
+  button:hover{
+    background: white;
+    color: rgb(66, 29, 102);
+  }
+}
+
+

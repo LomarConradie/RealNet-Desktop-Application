@@ -1,0 +1,117 @@
+<!-- View Buyer Page HTML -->
+<div class="ViewBuyer_Main">
+    <div class="SearchBar_div">
+        <div class="SearchBarInfo_div">
+            <div class="SearchBarRow_first">
+                <div>
+                    <a>Name/Surname:</a><br>
+                    <input id="BuyerSearchName_edt" required type="text" name="BuyerSearchName"
+                        [(ngModel)]="qNameSurname" placeholder="Enter Name/Surname" oninput="setCustomValidity('')"
+                        maxlength="50" oninvalid="this.setCustomValidity('Please enter a valid Name')">
+                </div>
+
+                <div>
+                    <a>Property Type:</a><br>
+                    <select id="BuyerSearchPropertyType_cmbx" required
+                        name="propertytypeSelect" [(ngModel)]="qPropertyType">
+                        <option value="Any">Any</option>
+                        <option *ngFor="let propType of (propertyDetailsItems | async)?.propertyType"
+                            [value]="propType">{{propType}}</option>
+                    </select>
+                </div> 
+
+                <div>
+                    <a>Area:</a><br>
+                    <input id="BuyerSearchArea_edt" required type="text" name="BuyerSearchArea"
+                        [(ngModel)]="qSuburbArea" placeholder="Enter Area" oninput="setCustomValidity('')"
+                        maxlength="50" oninvalid="this.setCustomValidity('Please enter a valid Area')">
+                </div>
+            </div>
+
+            <div class="SearchBarRow_second">
+                <div>
+                    <a>Min Price:</a><br>
+                    <input id="BuyerMinPrice_edt" required type="text" name="BuyerMinPrice"
+                        [(ngModel)]="qMinPrice" oninput="setCustomValidity('')" maxlength="50"
+                        oninvalid="this.setCustomValidity('Please enter a valid min price')">
+                </div>
+
+                <div>
+                    <a>Max Price:</a><br> 
+                    <input id="BuyerMaxPrice_edt" required type="text" name="BuyerMaxPrice"
+                        [(ngModel)]="qMaxPrice" oninput="setCustomValidity('')" maxlength="50"
+                        oninvalid="this.setCustomValidity('Please enter a valid max price')">
+                </div>
+
+                <div>
+                    <a>Listing Type:</a><br>
+                    <select [(ngModel)]="qRentBuy" id="BuyerSearchRentOrBuy_cmbx" required
+                        name="rentorbuysearch">
+                        <option value="Any">Any</option>
+                        <option value="Rent">Rent</option>
+                        <option value="Buy">Buy</option>
+                    </select>
+                </div>
+
+                <div>
+                    <button id="BuyerSearch_btn" (click)="search()">Search</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a id="Buyers_txt">BUYERS</a><br>
+    <select id="SortBy_cmbx" name="SortBy_cmbx" [(ngModel)]="sortOrder" (change)="search()">
+        <option value="dateCreated+desc">Date (Newest - Oldest)</option>
+        <option value="dateCreated+asc">Date (Oldest - Newest)</option>
+        <option value="requirements.maxPrice+desc">Price (High - Low)</option>
+        <option value="requirements.minPrice+asc">Price (Low - High)</option>
+    </select>
+
+    <div>
+        <a id="Buyer_Count">{{(buyersItems | async)?.length}} Buyers Found</a>
+    </div> 
+
+    <!-- Main display componenets and rectangle HTML -->
+    <div class="Buyer_View" [@inOutAnimation] *ngIf="buyersItems | async as list else loadingTmpl">
+        <ng-container *ngFor="let buyer of list; let numResults = count; first as isFirst">
+            <div class="Buyer_Box">
+                <div class="Buyer_Img">
+                    <img [src]="buyer.addBuyerPictureURL || 'assets/user-avatar-placeholder.png'" alt="">
+                </div>
+                <h2>{{buyer.personalDetails.firstName}} {{buyer.personalDetails.lastName}}</h2>
+                <div class="IconsRow_Div">
+                    <label id="BedroomIcon_lbl" class="IconLabels">2</label>
+                    <img class="PopUpIcons" src="assets/icons/Bedroom.png" title="Bedrooms" alt="Bedrooms">
+
+                    <label id="BathroomIcon_lbl" class="IconLabels">2</label>
+                    <img class="PopUpIcons" src="assets/icons/bathtub.png" title="Bathrooms" alt="Bathrooms">
+
+                    <label id="KitchenIcon_lbl" class="IconLabels">2</label>
+                    <img class="PopUpIcons" src="assets/icons/kitchen.png" title="Kitchens" alt="Kitchens">
+
+                    <label id="LivingRoomIcon_lbl" class="IconLabels">2</label>
+                    <img class="PopUpIcons" src="assets/icons/couch.png" title="Living Rooms" alt="Living Rooms">
+                </div>
+                <div class="Buyer_Details">
+                    <li><a>Max Price:</a> {{buyer.requirements.maxPrice | currency:'ZAR':'symbol-narrow'}}</li>
+                    <li><a>Property Suburb:</a> {{buyer.requirements.suburb || 'N/A'}}</li>
+                    <button id="BuyerOverlay_btn" (click)="openOverlay(buyer)">View Buyer Preferences</button>
+                </div>
+            </div>
+        </ng-container> 
+    </div>
+
+    <ng-template #loadingTmpl>
+        <div class="Property_View">
+            <app-loading-spinner></app-loading-spinner>
+        </div>
+    </ng-template>
+
+    <div *ngIf="(buyersItems | async)?.length == 0" class="Property_View">
+        <h1>No Records found :(</h1>
+    </div>
+</div>
+
+<app-buyer-overlay *ngIf="currentBuyerItem != null" @modalPopup [overlayData]="currentBuyerItem"
+    (closeOverlay)="currentBuyerItem = $event" class="buyer-overlay"></app-buyer-overlay>

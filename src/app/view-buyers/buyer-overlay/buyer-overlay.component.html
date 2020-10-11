@@ -1,0 +1,113 @@
+<div class="PopUp_Body">
+    <div class="header_cls">
+        <label id="Header">{{overlayData.personalDetails.firstName}} {{overlayData.personalDetails.lastName}}</label>
+        <a (click)="disposeOverlay()">
+            <img id="close_img" src="assets/close.png" alt="err">
+        </a>
+    </div>
+
+    <div class="Personal_Details">
+        <div class="Buyer_img">
+            <img [src]="overlayData.addBuyerPictureURL || 'assets/user-avatar-placeholder.png'"
+                alt="picture not available">
+            <!-- <button id="Edit_Buyer">Edit Buyer</button> -->
+        </div>
+        <div class="Contact_Details">
+            <div class="Title">
+                <h3>Contact Details</h3>
+            </div>
+            <div class="Details">
+                <li><a>Contact Number:</a> {{overlayData.personalDetails.contactNumber}}</li>
+                <li><a>Email Address:</a> {{overlayData.personalDetails.emailAddress}}</li>
+                <li><a>Joined on:</a> {{overlayData.dateCreated.toDate() | date:'dd MMMM yyyy HH:mm'}}</li>
+            </div>
+            <div class="Title">
+                <h3>Additional Contact Details</h3>
+            </div>
+            <div class="Details">
+                <li><a>Contact Number:</a> {{overlayData.secondContact.secContactNumber || 'N/A'}}</li>
+                <li><a>Email Address:</a> {{overlayData.secondContact.secEmailAddress || 'N/A'}}</li>
+            </div>
+            <div class="Title">
+                <h3>Property Preferences</h3>
+            </div>
+            <div class="Details">
+                <li><a>Bedrooms:</a> {{overlayData.requirements.bedrooms || 'N/A'}}</li>
+                <li><a>Bathrooms:</a> {{overlayData.requirements.bathrooms || 'N/A'}}</li>
+                <li><a>Kitchens:</a> {{overlayData.requirements.kitchens || 'N/A'}}</li>
+                <li><a>Dining Rooms:</a> {{overlayData.requirements.diningRooms || 'N/A'}}</li>
+                <li><a>Lounges:</a> {{overlayData.requirements.lounges || 'N/A'}}</li>
+                <li><a>Furnished:</a> {{overlayData.requirements.furnished ? 'Yes' : 'No'}}</li>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="Top_Row">
+        <label id="PriceRange_lbl">Price Range:</label>
+        <label id="PriceRangeAnswer_lbl">{{overlayData.requirements.minPrice | currency:'ZAR':'symbol-narrow'}} -
+                {{overlayData.requirements.maxPrice | currency:'ZAR':'symbol-narrow'}}</label>
+    </div>
+
+    <div class="Bottom_Row">
+        <div class="IconsRow_Div">
+            <label id="BedroomIcon_lbl" class="IconLabels">{{overlayData.requirements.bedrooms || 'N/A'}}</label>
+            <img class="PopUpIcons" src="assets/icons/Bedroom.png" title="Bedrooms" alt="Bedrooms">
+
+            <label id="BathroomIcon_lbl" class="IconLabels">{{overlayData.requirements.bathrooms || 'N/A'}}</label>
+            <img class="PopUpIcons" src="assets/icons/bathtub.png" title="Bathrooms" alt="Bathrooms">
+
+            <label id="KitchenIcon_lbl" class="IconLabels">{{overlayData.requirements.kitchens || 'N/A'}}</label>
+            <img class="PopUpIcons" src="assets/icons/kitchen.png" title="Kitchens" alt="Kitchens">
+
+            <label id="LivingRoomIcon_lbl" class="IconLabels">{{overlayData.requirements.lounges || 'N/A'}}</label>
+            <img class="PopUpIcons" src="assets/icons/couch.png" title="Living Rooms" alt="Living Rooms">
+
+            <label id="LandSize_lbl" class="IconLabels">Land Size:</label>
+            <ng-container>
+                <label id="LandSizeAnswer_lbl">{{overlayData.requirements.landSize || 'N/A'}}</label>
+            </ng-container>
+
+          
+        </div>
+        <div class="end">
+            <button id="EditBuyer_Btn" [routerLink]="['/addbuyer/',overlayData.id]">
+                <img class="btn_img" id="edtBtn_img" src="assets/icons/edit.png">Edit Buyer
+            </button>
+        </div>
+    </div>
+ 
+
+    <div class="Preferences">
+        <div class="Title">
+            <h3>Additional Property Preferences</h3>
+        </div>
+        <div class="Property_row">
+            <div class="Details col">
+                <li><a>Laundry Rooms:</a> {{overlayData.requirements.laundryRooms || 'N/A'}}</li>
+                <li><a>Balcony:</a> {{overlayData.requirements.balcony || 'N/A'}}</li>
+                <li><a>Area:</a> {{overlayData.requirements.area || 'N/A'}}</li>
+                <li><a>Owning Preference:</a> {{overlayData.requirements.owningPreference || 'N/A'}}</li>
+                <li><a>Patio:</a> {{overlayData.requirements.patio ? 'Yes' : 'No'}}</li>
+                <li><a>Pets Allowed:</a> {{overlayData.requirements.petsAllowed ? 'Yes' : 'No'}}</li>
+                <li><a>Pool:</a> {{overlayData.requirements.pool ? 'Yes' : 'No'}}</li>
+                <li><a>Property Type:</a> {{overlayData.requirements.propertyType || 'N/A'}}</li>
+                <li><a>Roof Type:</a> {{overlayData.requirements.roof || 'N/A'}}</li>
+                <li><a>Security:</a> {{overlayData.requirements.security ? 'Yes' : 'No'}}</li>
+                <li><a>Store Room:</a> {{overlayData.requirements.storeRoom ? 'Yes' : 'No'}}</li>
+            </div>
+            <div class="Details col">
+                <li><a>Study:</a>{{overlayData.requirements.study || 'N/A'}}</li>
+                <li><a>Suburb:</a> {{overlayData.requirements.suburb || 'N/A'}}</li>
+                <li><a>Views:</a> {{overlayData.requirements.views ? 'Yes' : 'No'}}</li>
+                <li><a>Wall Type:</a> {{overlayData.requirements.wallType || 'N/A'}}</li>
+                <li><a>Domestic Accomodation:</a> {{overlayData.requirements.domesticAccom ? 'Yes' : 'No'}}</li>
+                <li><a>Exterior:</a> {{overlayData.requirements.exterior || 'N/A'}}</li>
+                <li><a>Flatlet:</a> {{overlayData.requirements.flatlet ? 'Yes' : 'No'}}</li>
+                <li><a>Flooring:</a> {{overlayData.requirements.flooring || 'N/A'}}</li>
+                <li><a>Garden Type:</a> {{overlayData.requirements.gardenType || 'N/A'}}</li>
+                <li><a>Extras:</a> {{overlayData.requirements.extras || 'None'}}</li>
+            </div>
+        </div>
+    </div>
+</div>

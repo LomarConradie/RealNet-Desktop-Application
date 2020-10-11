@@ -1,0 +1,74 @@
+<div class="Login_bg">
+
+</div>
+
+<div class="Login_Main">
+    <form ngNativeValidate id="LoginForm">
+        <div class="Login_class" [style]="forgotPassword ? 'display:none;' : 'display:block;'">
+            <div class="Title_div">
+                <a id="Login_lbl">LOGIN</a>
+            </div>
+
+            <div class="Input_Container">
+                <i class="Icon" id="Icon1"><img src="assets\icons\Messages.png" class="img_class"></i>
+                <input class="Input_Field" id="Email_Login" type="email" placeholder="Email" #loginEmail required
+                    oninput="setCustomValidity('')"
+                    pattern="(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|'(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*')@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])"
+                    maxlength="120" oninvalid="this.setCustomValidity('Please enter a valid email address.')">
+            </div>
+
+            <div class="Input_Container">
+                <i class="Icon"><img src="assets\icons\lock.png" class="img_class"></i>
+                <input class="Input_Field" id="Password_Login" type="password" placeholder="Password" #loginPassword
+                    required oninvalid="this.setCustomValidity('Please enter a valid password.')"
+                    oninput="setCustomValidity('')">
+            </div>
+
+            <!-- <div class="Checkbox_div">
+                        <img src="assets\icons\checkbox.png" id="CheckBox_img">
+                        <a id="Checkbox_lbl">Remember me</a>
+                    </div> -->
+
+            <div>
+                <button id="Login_btn" (click)="signIn(loginEmail.value, loginPassword.value)" [disabled]="loading">
+                    <app-loading-spinner *ngIf="loading; else login"></app-loading-spinner>
+                    <ng-template #login>Login</ng-template>
+                </button>
+            </div>
+
+            <div class="ForgotPass_div">
+                <a (click)="toggleForgotPassword()">Forgot Password?</a>
+            </div>
+        </div>
+
+        <div class="ForgotPass_class" [style]="!forgotPassword ? 'display:none;' : 'display:block;'">
+            <div class="Title_div">
+                <a id="ForgotPass_lbl">Forgot Password</a>
+            </div>
+
+            <p id="details">Please enter your email address.</p>
+
+            <div class="Input_Container">
+                <i class="Icon" id="Icon1"><img src="assets\icons\Messages.png" class="img_class"></i>
+                <input class="Input_Field" id="Email_Reset" type="email" placeholder="Email" #resetEmail required
+                    required oninput="setCustomValidity('')"
+                    pattern="(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|'(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*')@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])"
+                    maxlength="120" oninvalid="this.setCustomValidity('Please enter a valid email address.')">
+            </div>
+
+            <p id="details">If the email account exists, a password reset link will be sent that is valid for 24 hours.
+            </p>
+
+            <div>
+                <button id="ForgotPass_btn" (click)="resetPassword(resetEmail.value)" [disabled]="loading">
+                    <app-loading-spinner *ngIf="loading; else sendLink"></app-loading-spinner>
+                    <ng-template #sendLink>Send Link</ng-template>
+                </button>
+            </div>
+
+            <div class="ReturnLogin_div">
+                <a (click)="toggleForgotPassword()">Return to Login page</a>
+            </div>
+        </div>
+    </form>
+</div>

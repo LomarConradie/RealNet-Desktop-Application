@@ -1,0 +1,1343 @@
+<!--Code for the title bar-->
+
+<body>
+	<div class="AddProperty_Main" *ngIf="authService.user$|async as Agent">
+		<div class="title">
+			<!-- The image is added inside the h1 to display in the same line. Insert the home page link in the href-->
+			<h1>
+				{{addPropertyNames[currentIndex]}}
+			</h1>
+			<a routerLink="/home">
+				<img src="assets/close.png" />
+			</a>
+		</div>
+		<!--add the phases as list-->
+		<div class="container">
+			<!-- class: 'active' will be added to the list item dynamically, if it's the current or previous section that the user is navigating -->
+			<ul class="progressBar">
+				<li class="bullet" (click)="goToPage('listingdetails')"
+					[class.active]="currentIndex >= addPropertyRoutes.indexOf('listingdetails')">Listing
+					<br> Details</li>
+				<li class="bullet" (click)="goToPage('propertydetails')"
+					[class.active]="currentIndex >= addPropertyRoutes.indexOf('propertydetails')">
+					Property <br> Details</li>
+				<li class="bullet" (click)="goToPage('propertyfeatures')"
+					[class.active]="currentIndex >= addPropertyRoutes.indexOf('propertyfeatures')">
+					Property <br> Features</li>
+				<li class="bullet" (click)="goToPage('sellerdetails')"
+					[class.active]="currentIndex >= addPropertyRoutes.indexOf('sellerdetails')">
+					Seller/<br>Landlord <br> Details</li>
+				<li class="bullet" (click)="goToPage('leasedetails')"
+					[class.active]="currentIndex >= addPropertyRoutes.indexOf('leasedetails')">Lease <br>
+					Details</li>
+				<li class="bullet" (click)="goToPage('mandatedetails')"
+					[class.active]="currentIndex >= addPropertyRoutes.indexOf('mandatedetails')">Mandate
+					<br> Details</li>
+				<li class="bullet" (click)="goToPage('openhourdetails')"
+					[class.active]="currentIndex >= addPropertyRoutes.indexOf('openhourdetails')">Open
+					<br> Hour <br> Details</li>
+				<li class="bullet" (click)="goToPage('mapping')"
+					[class.active]="currentIndex >= addPropertyRoutes.indexOf('mapping')">Mapping</li>
+				<li class="bullet" (click)="goToPage('websitedetails')"
+					[class.active]="currentIndex >= addPropertyRoutes.indexOf('websitedetails')">Website
+					<br> Details</li>
+				<li class="bullet" (click)="goToPage('externallinks')"
+					[class.active]="currentIndex >= addPropertyRoutes.indexOf('externallinks')">External
+					<br> Links</li>
+				<li class="bullet" (click)="goToPage('propertypictures')"
+					[class.active]="currentIndex >= addPropertyRoutes.indexOf('propertypictures')">
+					Property <br> Pictures</li>
+			</ul>
+		</div>
+
+		<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ LISTINGDETAILS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+		<!-- class: 'active' will be added to the form dynamically, if the form's id is the same as the current section the user is on. -->
+		<form ngNativeValidate #listingdetails id="listingdetails"
+			[class.active]="addPropertyRoutes[currentIndex] === 'listingdetails'" (ngSubmit)="onNextButton()">
+			<div class="Inputs col3ListingDetails_input">
+				<div class="ListingDetails_row">
+					<div class="ListingDetails_col">
+						<div [class]="isEdit && !Agent.admin? 'inputDisabled' : ''">
+							<a>Status:</a><br>
+							<select #Status_cmbx id="Status_cmbx" name="Status_cmbx"
+								[(ngModel)]="listingMapInsert.listingDetails.status"
+								[disabled]="isEdit && !Agent.admin? true : false" required>
+								<option value="" disabled hidden selected>Select Status</option>
+								<option *ngFor="let statusItem of (listingDetails | async)?.Status"
+									[value]="statusItem">
+									{{statusItem}}</option>
+							</select>
+						</div>
+
+						<div class="agents" [class]="isEdit && !Agent.admin?'inputDisabled' : ''">
+							<a>Agents:</a><br>
+							<ng-container *ngFor="let agent of agentsArray; let i = index">
+								<select style="margin-top: 5px;" #Agent_cmbx *ngIf="agentItems | async as agentsList"
+									name="Agents_cmbx{{i + 1}}" id="Agents_cmbx{{i + 1}}" required
+									(change)="agentSelected(Agent_cmbx.value, i)"
+									[disabled]="isEdit && !Agent.admin? true : false">
+									<option value="" disabled hidden selected>Select Agent {{i + 1 }}
+									</option>
+									<option *ngFor="let agentItem of agentsList" [value]="agentItem.id"
+										[selected]="selectedAgents[i] === agentItem.id"
+										[disabled]="selectedAgents.includes(agentItem.id)">{{agentItem.name}}
+										{{agentItem.surname}}</option>
+								</select>
+								<br>
+							</ng-container>
+							<label style="font-size: 13px; float: right;">
+								<a Title="Remove Agent" *ngIf="agentsArray.length > 1" (click)="decrementAgent()">
+									<div class="hover1">
+										<figure><img src="assets/remove-user.svg" style="margin-right: 10px;"></figure>
+									</div>
+								</a>
+								<a Title="Add Agent" *ngIf="agentsArray.length < 3" (click)="incrementAgent()">
+									<div class="hover1">
+										<figure><img src="assets/add-user.svg"></figure>
+									</div>
+								</a>
+							</label>
+						</div>
+
+						<div style="margin-top: 15px;">
+							<a>Listing Type:</a><br>
+							<select #ListingType_cmbx name="ListingType_cmbx" id="ListingType_cmbx"
+								[(ngModel)]="listingMapInsert.listingDetails.listingType" required>
+								<option value="" disabled hidden selected>Select Listing Type</option>
+								<option *ngFor="let listingTypeItem of (listingDetails | async)?.listingTypes">
+									{{listingTypeItem}} </option>
+							</select>
+						</div>
+
+						<div
+							[class]="listingMapInsert.listingDetails.priceOnApplication || isEdit && !Agent.admin?'inputDisabled' : ''">
+							<a>Price:</a><br>
+							<input
+								oninput="setCustomValidity('')" type="number" [min]="0" [max]="9999999999" step="0.01"
+								#Price_Edt name="price" id="Price_Edt" placeholder="Enter Price"
+								[(ngModel)]="listingMapInsert.listingDetails.price" required
+								[disabled]="listingMapInsert.listingDetails.priceOnApplication || isEdit && !Agent.admin? true : false">
+						</div>
+
+						<div [class]="isEdit && !Agent.admin? 'inputDisabled' : ''">
+							<a>Valuation Price:</a><br>
+							<input
+								oninput="setCustomValidity('')" [min]="0" [max]="9999999999" step="0.01" type="number"
+								name="valPrice" id="ValuationPrice_Edt" placeholder="Enter Price"
+								[(ngModel)]="listingMapInsert.listingDetails.valuationPrice" required
+								[disabled]="isEdit && !Agent.admin? true : false">
+						</div>
+
+						<div class="radio-inputs" [class]="isEdit && !Agent.admin?'inputDisabled' : ''">
+							<a>POA(Price On Application):</a>
+							<label [class]="isEdit && !Agent.admin? 'inputDisabled' : ''">
+								<input #POA_Yes type="radio" id="POA_Yes" [value]="true" name="poa_group"
+									[(ngModel)]="listingMapInsert.listingDetails.priceOnApplication">
+								<label for="POA_Yes">Yes</label>
+							</label>
+							<label [class]="isEdit && isEdit && !Agent.admin? 'inputDisabled' : ''">
+								<input #POA_No type="radio" id="POA_No" [value]="false" name="poa_group"
+									[(ngModel)]="listingMapInsert.listingDetails.priceOnApplication"
+									[disabled]="isEdit && !Agent.admin? true : false" required>
+								<label for="POA_No">No</label>
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
+		<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ PROPERTYDETAILS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+		<!-- class: 'active' will be added to the form dynamically, if the form's id is the same as the current section the user is on. -->
+		<form ngNativeValidate #propertydetails id="propertydetails" class="col3_input"
+			[class.active]="addPropertyRoutes[currentIndex] === 'propertydetails'">
+			<div class="Inputs col3_input">
+				<div class="PropertyDetails_row">
+					<div class="PropertyDetails_col">
+						<div>
+							<a>Property Type:</a><br>
+							<select #PropertyType_cmbx id="PropertyType_cmbx" name="propertyTypeCombo"
+								[(ngModel)]="listingMapInsert.propertyDetails.propertyType"
+								oninput="setCustomValidity('')" required
+								oninvalid="this.setCustomValidity('Please select a property type.')">
+								<option value="" disabled hidden selected>Select Property Type</option>
+								<option *ngFor="let propType of (propertyDetails | async)?.propertyType"
+									[value]="propType">
+									{{propType}}</option>
+							</select>
+						</div>
+
+						<div>
+							<a>Property Title:</a><br>
+							<select #propertyTitle id="propertyTitle_cmbx" name="propertyTitleCombo"
+								[(ngModel)]="listingMapInsert.propertyDetails.propertyTitle"
+								oninput="setCustomValidity('')" required
+								oninvalid="this.setCustomValidity('Please select a property title.')">
+								<option value="" disabled hidden selected>Select Property Title</option>
+								<option *ngFor="let propTitle of (propertyDetails | async)?.propertyTitle"
+									[value]="propTitle">
+									{{propTitle}}</option>
+							</select>
+						</div>
+
+						<div
+							[class]="listingMapInsert.propertyDetails.streetNo != null || isEdit && !Agent.admin?  'inputDisabled' : ''">
+							<a>ERF No:</a><br>
+							<input #ERFNo_edt id="ERFNo_edt" type="number" [min]="0" [max]="99999" name="ERFField"
+								[(ngModel)]="listingMapInsert.propertyDetails.erfNo" placeholder="Enter ERF No" required
+								oninput="setCustomValidity('')"
+								oninvalid="this.setCustomValidity('Please enter a valid erf number.')"
+								[disabled]="listingMapInsert.propertyDetails.streetNo != null || isEdit && !Agent.admin? true : false">
+						</div>
+
+						<div [class]=" isEdit && !Agent.admin? 'inputDisabled' : ''">
+							<a>Sectional Title No:</a><br>
+							<input #SectionalTitleNo_edt id="SectionalTitleNo_edt" type="number" [min]="0" [max]="99999"
+								name="secTitleField" [(ngModel)]="listingMapInsert.propertyDetails.sectionalTitleNo"
+								placeholder="Enter Sectional Title No" oninput="setCustomValidity('')"
+								oninvalid="this.setCustomValidity('Please enter a valid sectional title number.')"
+								[disabled]=" isEdit && !Agent.admin? true : false">
+						</div>
+
+						<div>
+							<a>Province:</a><br>
+							<select #Province_cmbx id="Province_cmbx" name="provinceComboBox"
+								[(ngModel)]="listingMapInsert.propertyDetails.province" required
+								oninput="setCustomValidity('')"
+								oninvalid="this.setCustomValidity('Please select a province.')"
+								(change)="areaNoneSelected.selected = true">
+								<option value="" disabled hidden selected>Select Province</option>
+								<option *ngFor="let province of (propertyDetails | async)?.Province" [value]="province">
+									{{province}}</option>
+							</select>
+						</div>
+
+						<div
+							[class]="listingMapInsert.propertyDetails.province !== 'Western Cape' ? 'inputDisabled' : ''">
+							<a>Area:</a><br>
+							<select #Area_cmbx id="Area_cmbx" name="areaCombo"
+								[(ngModel)]="listingMapInsert.propertyDetails.area" required
+								oninput="setCustomValidity('')"
+								oninvalid="this.setCustomValidity('Please select an area.')"
+								[disabled]="listingMapInsert.propertyDetails.province !== 'Western Cape'">
+								<option #areaNoneSelected value="" disabled hidden selected>Select Area</option>
+								<option *ngFor="let area of (propertyDetails | async)?.Area" [value]="area">
+									{{area}}</option>
+							</select>
+						</div>
+
+						<div>
+							<a>Suburb:</a><br>
+							<input #Suburb_cmbx id="Suburb_cmbx" name="suburbField"
+								[(ngModel)]="listingMapInsert.propertyDetails.suburb" required type="text"
+								placeholder="Enter Suburb" oninput="setCustomValidity('')" required
+								pattern="^([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$" maxlength="50"
+								oninvalid="this.setCustomValidity('Please enter a valid suburb name.')">
+						</div>
+					</div>
+
+
+					<div class="PropertyDetails_col">
+						<div>
+							<a>Complex Unit No:</a><br>
+							<input #ComplexUnitNo_edt id="ComplexUnitNo_edt" name="complexNoField" type="number"
+								[min]="0" [max]="99999" [(ngModel)]="listingMapInsert.propertyDetails.complexUnitNo"
+								placeholder="Enter Complex Unit Number">
+						</div>
+
+						<div>
+							<a>Complex Name:</a><br>
+							<input #ComplexName_edt id="ComplexName_edt" name="complexNameField" type="text"
+								[(ngModel)]="listingMapInsert.propertyDetails.complexName"
+								placeholder="Enter Complex Name"
+								pattern="^([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$" maxlength="50">
+						</div>
+
+						<div [class]="listingMapInsert.propertyDetails.erfNo != null ? 'inputDisabled' : ''">
+							<a>Street No:</a><br>
+							<input #StreetNo_edt id="StreetNo_edt" name="streetNoField" type="number" [min]="1"
+								[max]="99999" placeholder="Enter Street No"
+								[(ngModel)]="listingMapInsert.propertyDetails.streetNo" oninput="setCustomValidity('')"
+								required oninvalid="this.setCustomValidity('Please enter a street number.')"
+								[disabled]="listingMapInsert.propertyDetails.erfNo != null">
+						</div>
+
+						<div>
+							<a>Street Name:</a><br>
+							<input #StreetName_edt id="StreetName_edt" name="streetNameField" type="text"
+								placeholder="Enter Street Name"
+								[(ngModel)]="listingMapInsert.propertyDetails.streetName"
+								oninput="setCustomValidity('')" required
+								oninvalid="this.setCustomValidity('Please enter a street name.')"
+								pattern="^([a-zA-Z0-9\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$"
+								maxlength="50">
+						</div>
+
+						<div>
+							<a>ZIP Code:</a><br>
+							<input #ZIPCode_edt id="ZIPCode_edt" name="zipcodeField" type="text"
+								placeholder="Enter ZIP Code" required
+								[(ngModel)]="listingMapInsert.propertyDetails.zipCode"
+								oninvalid="this.setCustomValidity('Please enter a zip code.')"
+								oninput="setCustomValidity('')" minlength="4" maxlength="4" pattern="[0-9]{1,4}">
+						</div>
+
+						<div class="radio-inputs">
+							<a>Show Physical Address:</a>
+							<fieldset id="PhysicalAddress_group">
+								<label>
+									<input #PhysicalAddress_Yes type="radio" id="PhysicalAddress_Yes" name="phyiscalYes"
+										[(ngModel)]="listingMapInsert.propertyDetails.physicalAddress" [value]="true"
+										name="PhysicalAddress_group" required>
+									<label for="PhysicalAddress_Yes">Yes</label>
+								</label>
+
+								<label>
+									<input #PhysicalAddress_No type="radio" id="PhysicalAddress_No" name="physicalNo"
+										[(ngModel)]="listingMapInsert.propertyDetails.physicalAddress" [value]="false"
+										name="PhysicalAddress_group" required>
+									<label for="PhysicalAddress_No">No</label>
+								</label>
+							</fieldset>
+						</div>
+
+						<div [class]="isEdit && !Agent.admin? 'inputDisabled' : ''">
+							<a>Listing to expire after:</a><br>
+							<input #ExpiryDate_date id="ExpiryDate_date" name="expiryDateSelect" type="date"
+								[(ngModel)]="listingMapInsert.propertyDetails.listingExpiryDate"
+								oninput="setCustomValidity('')" required
+								oninvalid="this.setCustomValidity('Please select a valid date.')" [min]="minDate"
+								[disabled]="isEdit && !Agent.admin? true : false">
+						</div>
+					</div>
+
+					<div class="PropertyDetails_col">
+						<div>
+							<a>Measurement Type:</a><br>
+							<select #MeasurementType_cmbx id="MeasurementType_cmbx" name="measurementSelect"
+								[(ngModel)]="listingMapInsert.propertyDetails.measurementType"
+								oninput="setCustomValidity('')" required
+								oninvalid="this.setCustomValidity('Please select a measurement type.')">
+								<option value="" disabled hidden selected>Select Measurement Type</option>
+								<option *ngFor="let measurement of (propertyDetails | async)?.measureType"
+									[value]="measurement">
+									{{measurement}}</option>
+							</select>
+						</div>
+
+						<div
+							[class]="(propertyDetails | async)?.landSizeDisabledValues.includes(listingMapInsert.propertyDetails.propertyType) ? 'inputDisabled' : ''">
+							<a>Land Size:</a><br>
+							<input #LandSize_edt id="LandSize_edt" name="landSizeField" type="number" [min]="0"
+								[max]="9999999999" placeholder="Enter Land Size"
+								[(ngModel)]="listingMapInsert.propertyDetails.landSize" oninput="setCustomValidity('')"
+								required oninvalid="this.setCustomValidity('Please enter a land size.')"
+								[disabled]="(propertyDetails | async)?.landSizeDisabledValues.includes(listingMapInsert.propertyDetails.propertyType)">
+						</div>
+
+						<div>
+							<a>Floor Size:</a><br>
+							<input #FloorSize_edt id="FloorSize_edt" name="floorSizeField" type="number"
+								placeholder="Enter Floor Size" [(ngModel)]="listingMapInsert.propertyDetails.floorSize"
+								oninvalid="this.setCustomValidity('Please enter the floor size.')" [min]="0"
+								[max]="9999999999" oninput="setCustomValidity('')">
+						</div>
+
+						<div [class]="isEdit && !Agent.admin? 'inputDisabled' : ''">
+							<a>Monthly Rates & Taxes:</a><br>
+							<input #RatesTaxes_edt id="RatesTaxes_edt" name="levyField" type="number" [min]="0"
+								[max]="9999999999" step="0.01"
+								[(ngModel)]="listingMapInsert.propertyDetails.monthlyRate"
+								placeholder="Enter Monthly Rates & Taxes" required
+								oninvalid="this.setCustomValidity('Please enter an amount for rates and taxes.')"
+								oninput="setCustomValidity('')" [disabled]="isEdit && !Agent.admin? true : false">
+						</div>
+
+						<div class="radio-inputs" [class]="isEdit && !Agent.admin? 'inputDisabled' : ''">
+							<a>Levy:</a>
+							<fieldset id="Levy_group">
+								<label [class]="isEdit && !Agent.admin? 'inputDisabled' : ''">
+									<input #Levy_Yes type="radio" id="Levy_Yes" [value]="true" name="Levy_group"
+										[(ngModel)]="listingMapInsert.propertyDetails.levy">
+									<label for="Levy_Yes">Yes</label>
+								</label>
+								<label [class]="isEdit && !Agent.admin? 'inputDisabled' : ''">
+									<input #Levy_No type="radio" id="Levy_No" [value]="false" name="Levy_group" required
+										[(ngModel)]="listingMapInsert.propertyDetails.levy"
+										[disabled]="isEdit && !Agent.admin? true : false">
+									<label for="Levy_No">No</label>
+								</label>
+							</fieldset>
+						</div>
+
+						<div
+							[class]="!listingMapInsert.propertyDetails.levy || isEdit && !Agent.admin? 'inputDisabled' : ''">
+							<a>Special Levy:</a><br>
+							<input #SpecialLevy_edt id="SpecialLevy_edt" name="specialLevyField" type="number" [min]="0"
+								[max]="9999999999" step="0.01" placeholder="Enter Levy"
+								[(ngModel)]="listingMapInsert.propertyDetails.specialLevy"
+								oninput="setCustomValidity('')" required
+								oninvalid="this.setCustomValidity('Please enter the special levy amount.')"
+								[disabled]="!listingMapInsert.propertyDetails.levy || isEdit && !Agent.admin? true : false">
+						</div>
+
+						<div [class]="isEdit && !Agent.admin? 'inputDisabled' : ''">
+							<a>HOA Levy:</a><br>
+							<input #HOALevy_edt id="HOALevy_edt" name="hoaLevy" type="number" [min]="0"
+								[max]="9999999999" step="0.01" placeholder="Enter HOA Levy"
+								[(ngModel)]="listingMapInsert.propertyDetails.hoaLevy" oninput="setCustomValidity('')"
+								oninvalid="this.setCustomValidity('Please enter the HOA levy amount.')"
+								[disabled]="isEdit && !Agent.admin? true : false">
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
+		<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ PROPERTYFEATURES +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+		<!-- class: 'active' will be added to the form dynamically, if the form's id is the same as the current section the user is on. -->
+		<form ngNativeValidate #propertyfeatures id="propertyfeatures" class="col3_input"
+			[class.active]="addPropertyRoutes[currentIndex] === 'propertyfeatures'">
+			<div class="Inputs col3_input">
+				<div class="PropertyFeatures_row">
+					<div class="PropertyFeatures_col">
+						<div>
+							<a>Bedrooms:</a><br>
+							<input #Bedrooms_edt id="Bedrooms_edt" name="bedroomField" type="number" [min]="0"
+								[max]="1000" placeholder="Enter Amount Of Bedrooms"
+								[(ngModel)]="listingMapInsert.propertyFeatures.bedroom"
+								oninvalid="this.setCustomValidity('Please enter a valid bedroom amount.')"
+								oninput="setCustomValidity('')" required>
+						</div>
+
+						<div>
+							<a>Bathrooms:</a><br>
+							<input #Bathrooms_edt id="Bathrooms_edt" name="bathroomField" type="number" [min]="0"
+								[max]="1000" placeholder="Enter Amount of Bathrooms"
+								[(ngModel)]="listingMapInsert.propertyFeatures.bathroom" oninput="setCustomValidity('')"
+								oninvalid="this.setCustomValidity('Please enter a valid bathroom amount.')"
+								required>
+						</div>
+
+						<div>
+							<a>Kitchens:</a><br>
+							<input #Kitchens_edt id="Kitchens_edt" name="kitchenField" type="number" [min]="0"
+								[max]="1000" placeholder="Enter Amount Of Kitchens"
+								[(ngModel)]="listingMapInsert.propertyFeatures.kitchen" oninput="setCustomValidity('')"
+								oninvalid="this.setCustomValidity('Please enter a valid kitchen amount.')" required>
+						</div>
+
+						<div>
+							<a>Lounges:</a><br>
+							<input #Lounges_edt id="Lounges_edt" name="loungeField" type="number" [min]="0" [max]="1000"
+								placeholder="Enter Amount Of Lounges" [(ngModel)]="listingMapInsert.propertyFeatures.lounge"
+								oninput="setCustomValidity('')"
+								oninvalid="this.setCustomValidity('Please enter a valid amount for lounges.')" required>
+						</div>
+
+						<div>
+							<a>Dining Rooms:</a><br>
+							<input #DiningRooms_edt id="DiningRooms_edt" name="diningField" [min]="0" [max]="1000"
+								placeholder="Enter Amount Of Dining Rooms"
+								[(ngModel)]="listingMapInsert.propertyFeatures.diningRoom"
+								oninput="setCustomValidity('')"
+								oninvalid="this.setCustomValidity('Please enter a valid amount for dining rooms.')"
+								required>
+						</div>
+
+						<div>
+							<a>Laundry:</a><br>
+							<input #Laundry_edt id="Laundry_edt" name="laundryField" type="number" [min]="0"
+								[max]="1000" placeholder="Enter Amount For Laundry"
+								[(ngModel)]="listingMapInsert.propertyFeatures.laundry" oninput="setCustomValidity('')"
+								oninvalid="this.setCustomValidity('Please enter a valid amount for laundry.')" required>
+						</div>
+
+						<div class="radio-inputs">
+							<a>Patio:</a>
+							<fieldset id="Patio_group">
+								<label>
+									<input #Patio_Yes type="radio" id="Patio_Yes" [value]="true" name="Patio_group"
+										[(ngModel)]="listingMapInsert.propertyFeatures.patio">
+									<label for="Patio_Yes">Yes</label>
+								</label>
+								<label>
+									<input #Patio_No type="radio" id="Patio_No" [value]="false" name="Patio_group"
+										[(ngModel)]="listingMapInsert.propertyFeatures.patio" required>
+									<label for="Patio_No">No</label>
+								</label>
+							</fieldset>
+						</div>
+
+						<div>
+							<a>Balcony:</a><br>
+							<input #Balcony_edt id="Balcony_edt" name="balconyField" type="number" [min]="0"
+								[max]="1000" placeholder="Enter Amount Of Balconies"
+								[(ngModel)]="listingMapInsert.propertyFeatures.balcony">
+						</div>
+					</div>
+
+					<div class="PropertyFeatures_col">
+						<div class="radio-inputs">
+							<a>Domestic Accommodation:</a>
+							<fieldset id="DomesticAccomodation_group">
+								<label>
+									<input #DomesticAccomodation_Yes type="radio" id="DomesticAccomodation_Yes"
+										[value]="true" name="DomesticAccomodation_group"
+										[(ngModel)]="listingMapInsert.propertyFeatures.domesticAccomodation">
+									<label for="DomesticAccomodation_Yes">Yes</label>
+								</label>
+								<label>
+									<input #DomesticAccomodation_No type="radio" id="DomesticAccomodation_No"
+										[value]="false" name="DomesticAccomodation_group"
+										[(ngModel)]="listingMapInsert.propertyFeatures.domesticAccomodation" required>
+									<label for="DomesticAccomodation_No">No</label>
+								</label>
+							</fieldset>
+						</div>
+
+						<div class="radio-inputs">
+							<a>Flatlet:</a>
+							<fieldset id="Flatlet_group">
+								<label>
+									<input #Flatlet_Yes type="radio" id="Flatlet_Yes" [value]="true"
+										name="Flatlet_group" [(ngModel)]="listingMapInsert.propertyFeatures.flatlet">
+									<label for="Flatlet_Yes">Yes</label>
+								</label>
+								<label>
+									<input #Flatlet_No type="radio" id="Flatlet_No" [value]="false" name="Flatlet_group"
+										[(ngModel)]="listingMapInsert.propertyFeatures.flatlet" required>
+									<label for="Flatlet_No">No</label>
+								</label>
+							</fieldset>
+						</div>
+
+						<div>
+							<a>Study:</a><br>
+							<input #Study_edt id="Study_edt" name="studyField" type="number" [min]="0" [max]="1000"
+								placeholder="Enter Amount Of Study Rooms" [(ngModel)]="listingMapInsert.propertyFeatures.study"
+								oninvalid="this.setCustomValidity('Please enter a valid amount for study.')" required>
+						</div>
+
+						<div>
+							<a>Flooring:</a><br>
+							<select #Flooring_cmbx id="Flooring_cmbx" name="flooringSelect"
+								[(ngModel)]="listingMapInsert.propertyFeatures.flooring">
+								<option value="" disabled hidden selected>Select Flooring</option>
+								<option *ngFor="let floorType of (propertyFeatures | async)?.Flooring"
+									[value]="floorType">
+									{{floorType}}</option>
+							</select>
+						</div>
+
+						<div>
+							<a>Exterior:</a><br>
+							<select #Exterior_cmbx id="Exterior_cmbx" name="exteriorSelect"
+								[(ngModel)]="listingMapInsert.propertyFeatures.exterior">
+								<option value="" disabled hidden selected>Select Exterior</option>
+								<option *ngFor="let extType of (propertyFeatures | async)?.Exterior" [value]="extType">
+									{{extType}} </option>
+							</select>
+						</div>
+
+						<div>
+							<a>Roof:</a><br>
+							<select #Roof_cmbx id="Roof_cmbx" name="roofSelect"
+								[(ngModel)]="listingMapInsert.propertyFeatures.roof">
+								<option value="" disabled hidden selected>Select Roof</option>
+								<option *ngFor="let roofType of (propertyFeatures | async)?.Roof" [value]="roofType">
+									{{roofType}} </option>
+							</select>
+						</div>
+
+						<div class="radio-inputs">
+							<a>Pool:</a>
+							<fieldset id="Pool_group">
+								<label>
+									<input #Pool_Yes type="radio" id="Pool_Yes" [value]="true" name="Pool_group"
+										[(ngModel)]="listingMapInsert.propertyFeatures.pool">
+									<label for="Pool_Yes">Yes</label>
+								</label>
+								<label>
+									<input #Pool_No type="radio" id="Pool_No" [value]="false" name="Pool_group"
+										[(ngModel)]="listingMapInsert.propertyFeatures.pool" required>
+									<label for="Pool_No">No</label>
+								</label>
+							</fieldset>
+						</div>
+
+						<div>
+							<a>Garden Type:</a><br>
+							<select #GardenType_cmbx id="GardenType_cmbx" name="gardenSelect"
+								[(ngModel)]="listingMapInsert.propertyFeatures.gardenType">
+								<option value="" disabled hidden selected>Select Garden Type</option>
+								<option *ngFor="let gardenType of (propertyFeatures | async)?.GardenType"
+									[value]="gardenType">
+									{{gardenType}} </option>
+							</select>
+						</div>
+					</div>
+
+					<div class="PropertyFeatures_col">
+						<div class="radio-inputs">
+							<a>Views:</a>
+							<fieldset id="Views_group">
+								<label>
+									<input #Views_Yes type="radio" id="Views_Yes" [value]="true" name="Views_group"
+										[(ngModel)]="listingMapInsert.propertyFeatures.views">
+									<label for="Views_Yes">Yes</label>
+								</label>
+								<label>
+									<input #Views_No type="radio" id="Views_No" [value]="false" name="Views_group"
+										[(ngModel)]="listingMapInsert.propertyFeatures.views" required>
+									<label for="Views_No">No</label>
+								</label>
+							</fieldset>
+						</div>
+
+						<div class="radio-inputs">
+							<a>Security:</a>
+							<fieldset id="Security_group">
+								<label>
+									<input #Security_Yes type="radio" id="Security_Yes" [value]="true"
+										name="Security_group" [(ngModel)]="listingMapInsert.propertyFeatures.security">
+									<label for="Security_Yes">Yes</label>
+								</label>
+								<label>
+									<input #Security_No type="radio" id="Security_No" [value]="false"
+										name="Security_group" [(ngModel)]="listingMapInsert.propertyFeatures.security"
+										required>
+									<label for="Security_No">No</label>
+								</label>
+							</fieldset>
+						</div>
+
+						<div class="radio-inputs">
+							<a>Storeroom:</a>
+							<fieldset id="Storeroom_group">
+								<label>
+									<input #Storeroom_Yes type="radio" id="Storeroom_Yes" [value]="true"
+										name="Storeroom_group"
+										[(ngModel)]="listingMapInsert.propertyFeatures.storeroom">
+									<label for="Storeroom_Yes">Yes</label>
+								</label>
+								<label>
+									<input #Storeroom_No type="radio" id="Storeroom_No" [value]="false"
+										name="Storeroom_group" [(ngModel)]="listingMapInsert.propertyFeatures.storeroom"
+										required>
+									<label for="Storeroom_No">No</label>
+								</label>
+							</fieldset>
+						</div>
+
+						<div>
+							<a>Walling:</a><br>
+							<select #Walling_cmbx id="Walling_cmbx" name="wallSelect"
+								[(ngModel)]="listingMapInsert.propertyFeatures.walling">
+								<option value="" disabled hidden selected>Select Walling</option>
+								<option *ngFor="let wallType of (propertyFeatures | async)?.Walling" [value]="wallType">
+									{{wallType}} </option>
+							</select>
+						</div>
+
+						<div class="radio-inputs">
+							<a>Furnished:</a>
+							<fieldset id="Furnished_group">
+								<label>
+									<input #Furnished_Yes type="radio" id="Furnished_Yes" [value]="true"
+										name="Furnished_group"
+										[(ngModel)]="listingMapInsert.propertyFeatures.furnished">
+									<label for="Furnished_Yes">Yes</label>
+								</label>
+								<label>
+									<input #Furnished_No type="radio" id="Furnished_No" [value]="false"
+										name="Furnished_group" [(ngModel)]="listingMapInsert.propertyFeatures.furnished"
+										required>
+									<label for="Furnished_No">No</label>
+								</label>
+							</fieldset>
+						</div>
+
+						<div>
+							<a>Extras:</a><br>
+							<input #Extras_edt id="#Extras_edt" name="extrasSelect" type="text"
+								placeholder="Enter Extra Details" pattern="[A-Za-z0-9 -_]+"
+								[(ngModel)]="listingMapInsert.propertyFeatures.extras">
+						</div>
+
+						<div class="radio-inputs">
+							<a>Pets Allowed:</a>
+							<fieldset id="PetsAllowed_group">
+								<label>
+									<input #PetsAllowed_Yes type="radio" id="PetsAllowed_Yes" [value]="true"
+										name="PetsAllowed_group"
+										[(ngModel)]="listingMapInsert.propertyFeatures.petsAllowed">
+									<label for="PetsAllowed_Yes">Yes</label>
+								</label>
+								<label>
+									<input #PetsAllowed_No type="radio" id="PetsAllowed_No" [value]="false"
+										name="PetsAllowed_group"
+										[(ngModel)]="listingMapInsert.propertyFeatures.petsAllowed" required>
+									<label for="PetsAllowed_No">No</label>
+								</label>
+							</fieldset>
+						</div>
+
+						<div [class]="listingMapInsert.propertyFeatures.petsAllowed ? '' : 'inputDisabled'">
+							<a>Pet Notes:</a><br>
+							<input #PetNotes_edt id="#PetNotes_edt" name="petsNotesField" type="text"
+								placeholder="Enter Pet notes" pattern="[A-Za-z0-9 -_]+"
+								[disabled]='!listingMapInsert.propertyFeatures.petsAllowed'
+								[(ngModel)]="listingMapInsert.propertyFeatures.petsNotes">
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</form>
+
+		<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ SELLERDETAILS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+		<!-- class: 'active' will be added to the form dynamically, if the form's id is the same as the current section the user is on. -->
+		<form ngNativeValidate #sellerdetails id="sellerdetails" class="col3_input"
+			[class.active]="addPropertyRoutes[currentIndex] === 'sellerdetails'">
+			<div class="Inputs col3_input">
+				<div class="SellerDetails_row">
+					<div class="SellerDetails_col">
+						<div class="radio-inputs">
+							<a>Seller or Landlord:</a>
+							<fieldset id="SellerorLandlord_group">
+								<label>
+									<input #SellerorLandlord_Seller type="radio" id="SellerorLandlord_Seller"
+										value="Seller" name="SellerorLandlord_group"
+										[(ngModel)]="listingMapInsert.sellerDetails.sellerType">
+									<label for="SellerorLandlord_Seller">Seller</label>
+								</label>
+								<label>
+									<input #SellerorLandlord_Landlord type="radio" id="SellerorLandlord_Landlord"
+										value="Landlord" name="SellerorLandlord_group"
+										[(ngModel)]="listingMapInsert.sellerDetails.sellerType" required>
+									<label for="SellerorLandlord_Landlord">Landlord</label>
+								</label>
+							</fieldset>
+						</div>
+
+						<div>
+							<a>No of {{listingMapInsert.sellerDetails.sellerType}}s:</a><br>
+							<input #NumberSellers_edt id="NumberSellers_edt" type="number" [min]="1" [max]="maxSellers"
+								name="sellerAmount" [(ngModel)]="listingMapInsert.sellerDetails.amountOfSellers"
+								placeholder="Please enter value" required
+								(change)="drawSellers(NumberSellers_edt.value)">
+						</div>
+
+						<!-- <div>
+							<a>Listing Type:</a><br>
+							<select #SellerListingType_cmbx id="SellerListingType_cmbx" required
+								name="listingTypeSelect" [(ngModel)]="listingMapInsert.sellerDetails.listingSellType"
+								(click)="isForSale($event.target.value)">
+								<option value="" disabled hidden selected>Please select Listing Type</option>
+								<option *ngFor="let listType of (sellerDetails | async)?.listingTypes"
+									[value]="listType">
+									{{listType}} </option>
+							</select>
+						</div> -->
+
+						<ng-container *ngFor="let person of listingMapInsert.sellerDetails.sellers ; let i = index">
+
+							<div class="sellerTitle">
+								<a>{{listingMapInsert.sellerDetails.sellerType}} {{i+1}}</a>
+							</div>
+
+							<div>
+								<a>Name:</a><br>
+								<input #SellerName_edt id="SellerName_edt{{i+1}}" required type="text"
+									[(ngModel)]="person.seller.sellerName" name="sellerFirstname{{i+1}}"
+									placeholder="Enter Name" oninput="setCustomValidity('')" required
+									pattern="^([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$"
+									maxlength="50" oninvalid="this.setCustomValidity('Please enter a valid name.')">
+							</div>
+
+							<div>
+								<a>Surname:</a><br>
+								<input #SellerSurname_edt id="SellerSurname_edt{{i+1}}" required type="text"
+									[(ngModel)]="person.seller.sellerSurname" name="sellerLastname{{i+1}}"
+									placeholder="Enter Surname" oninput="setCustomValidity('')" required
+									pattern="^([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$"
+									maxlength="50" oninvalid="this.setCustomValidity('Please enter a valid surname.')">
+							</div>
+
+							<div>
+								<a>Address:</a><br>
+								<input #SellerAddress_edt id="SellerAddress_edt{{i+1}}" required type="text"
+									[(ngModel)]="person.seller.sellerAddress" name="sellerAddress{{i+1}}"
+									placeholder="Enter Address" oninput="setCustomValidity('')" required
+									pattern="^([0-9a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[0-9a-zA-Z\u0080-\u024F]*$"
+									maxlength="120" oninvalid="this.setCustomValidity('Please enter a valid address.')">
+							</div>
+
+							<div>
+								<a>Contact Number:</a><br>
+								<input #SellerContact_edt id="SellerContact_edt{{i+1}}" required type="text"
+									[(ngModel)]="person.seller.sellerContactNum" name="sellerContact{{i+1}}"
+									placeholder="Enter Contact Number" oninput="setCustomValidity('')" required
+									pattern="^(\+0?1\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$" maxlength="13"
+									oninvalid="this.setCustomValidity('Please enter a valid contact number.')">
+							</div>
+
+							<div>
+								<a>Email:</a><br>
+								<input #SellerEmail_edt id="SellerEmail_edt{{i+1}}" required type="text"
+									[(ngModel)]="person.seller.sellerEmail" name="sellerEmail{{i+1}}"
+									placeholder="Enter Email" oninput="setCustomValidity('')" required
+									pattern="(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|'(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*')@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])"
+									maxlength="50" oninvalid="this.setCustomValidity('Please enter a valid email.')">
+							</div>
+
+							<div>
+								<a>Marital Status:</a><br>
+								<select #MaritalStatus_cmbx id="MaritalStatus_cmbx{{i+1}}" required
+									[(ngModel)]="person.seller.sellerMarryStatus" name="sellerMarryStat{{i+1}}"
+									(change)="setSpouseMaritalStatus(MaritalStatus_cmbx.value, i)">
+									<option value="" disabled hidden selected>Select Marital Status</option>
+									<option *ngFor="let marStat of (sellerDetails | async)?.maritialStatus"
+										[value]="marStat">
+										{{marStat}} </option>
+								</select>
+							</div>
+
+						</ng-container>
+
+					</div>
+
+					<div class="SellerDetails_col">
+						<div>
+							<label style="font-weight: bold;">Spouse Details</label>
+						</div>
+						<ng-container *ngFor="let human of listingMapInsert.sellerDetails.sellers; let i = index">
+							<div [class.disabled]="spouseDisabledValues.includes(human.seller.sellerMarryStatus)">
+								<div class="sellerTitle">
+									<a>Spouse {{i+1}}</a>
+								</div>
+
+								<div>
+									<a>Name:</a><br>
+									<input #SpouseName_edt id="SpouseName_edt{{i+1}}" type="text"
+										[(ngModel)]="human.spouse.spouseName" name="spouseName{{i+1}}"
+										placeholder="Enter Name" oninput="setCustomValidity('')"
+										pattern="^([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$"
+										maxlength="50" oninvalid="this.setCustomValidity('Please enter a valid name.')"
+										[disabled]="spouseDisabledValues.includes(human.seller.sellerMarryStatus)">
+								</div>
+
+								<div>
+									<a>Surname:</a><br>
+									<input #SpouseSurname_edt id="SpouseSurname_edt{{i+1}}" type="text"
+										[(ngModel)]="human.spouse.spouseSurname" name="spouseSurname{{i+1}}"
+										placeholder="Enter Surname" oninput="setCustomValidity('')"
+										pattern="^([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$"
+										maxlength="50"
+										oninvalid="this.setCustomValidity('Please enter a valid surname.')"
+										[disabled]="spouseDisabledValues.includes(human.seller.sellerMarryStatus)">
+								</div>
+
+								<div>
+									<a>Address:</a><br>
+									<input #SpouseAddress_edt id="SpouseAddress_edt{{i+1}}" type="text"
+										[(ngModel)]="human.spouse.spouseAddress" name="spouseAddress{{i+1}}"
+										placeholder="Enter Address" oninput="setCustomValidity('')"
+										pattern="^([0-9a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[0-9a-zA-Z\u0080-\u024F]*$"
+										maxlength="120"
+										oninvalid="this.setCustomValidity('Please enter a valid address.')"
+										[disabled]="spouseDisabledValues.includes(human.seller.sellerMarryStatus)">
+								</div>
+
+								<div>
+									<a>Contact Number:</a><br>
+									<input #SpouseContact_edt id="SpouseContact_edt{{i+1}}" type="text"
+										[(ngModel)]="human.spouse.spouseContactNum" name="spouseContactNum{{i+1}}"
+										placeholder="Enter Contact Number" oninput="setCustomValidity('')"
+										pattern="^(\+0?1\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$" maxlength="13"
+										oninvalid="this.setCustomValidity('Please enter a valid contact number.')"
+										[disabled]="spouseDisabledValues.includes(human.seller.sellerMarryStatus)">
+								</div>
+
+								<div>
+									<a>Email:</a><br>
+									<input #SpouseEmail_edt id="SpouseEmail_edt{{i+1}}" type="text"
+										[(ngModel)]="human.spouse.spouseEmail" name="spouseEmail{{i+1}}"
+										placeholder="Enter Email" oninput="setCustomValidity('')"
+										pattern="(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|'(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*')@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])"
+										maxlength="50" oninvalid="this.setCustomValidity('Please enter a valid email.')"
+										[disabled]="spouseDisabledValues.includes(human.seller.sellerMarryStatus)">
+								</div>
+							</div>
+
+						</ng-container>
+
+					</div>
+
+					<div class="SellerDetails_col"
+						[class]="listingMapInsert.listingDetails.listingType === 'For Sale' ? 'disabled' : ''">
+						<div>
+							<label style="font-weight: bold;">Tenant Details</label>
+						</div>
+
+						<div>
+							<a>Name:</a><br>
+							<input #TenantName_edt id="TenantName_edt" type="text" placeholder="Enter Name"
+								oninput="setCustomValidity('')" name="tenantName"
+								[(ngModel)]="listingMapInsert.sellerDetails.tenantName"
+								pattern="^([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$" maxlength="50"
+								oninvalid="this.setCustomValidity('Please enter a valid name.')"
+								[disabled]="listingMapInsert.listingDetails.listingType === 'For Sale'">
+						</div>
+
+						<div>
+							<a>Surname:</a><br>
+							<input #TenantSurname_edt id="TenantSurname_edt" type="text" placeholder="Enter Surname"
+								oninput="setCustomValidity('')" name="tenantSurname"
+								[(ngModel)]="listingMapInsert.sellerDetails.tenantSurname"
+								pattern="^([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$" maxlength="50"
+								oninvalid="this.setCustomValidity('Please enter a valid surname.')"
+								[disabled]="listingMapInsert.listingDetails.listingType === 'For Sale'">
+						</div>
+
+						<div>
+							<a>Address:</a><br>
+							<input #TenantAddress_edt id="TenantAddress_edt" type="text" placeholder="Enter Address"
+								oninput="setCustomValidity('')" name="tenantAddress"
+								[(ngModel)]="listingMapInsert.sellerDetails.tenantAddress"
+								pattern="^([0-9a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[0-9a-zA-Z\u0080-\u024F]*$"
+								maxlength="120" oninvalid="this.setCustomValidity('Please enter a valid address.')"
+								[disabled]="listingMapInsert.listingDetails.listingType === 'For Sale'">
+						</div>
+
+						<div>
+							<a>Contact Number:</a><br>
+							<input #TenantContact_edt id="TenantContact_edt" type="text"
+								placeholder="Enter Contact Number" oninput="setCustomValidity('')"
+								name="tenantContactNumber" [(ngModel)]="listingMapInsert.sellerDetails.tenantContactNo"
+								pattern="^(\+0?1\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$" maxlength="13"
+								oninvalid="this.setCustomValidity('Please enter a valid contact number.')"
+								[disabled]="listingMapInsert.listingDetails.listingType === 'For Sale'">
+						</div>
+
+						<div>
+							<a>Email:</a><br>
+							<input #TenantEmail_edt id="TenantEmail_edt" type="text" placeholder="Enter Email"
+								oninput="setCustomValidity('')" name="tenantEmail"
+								[(ngModel)]="listingMapInsert.sellerDetails.tenantEmail"
+								pattern="(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|'(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*')@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])"
+								maxlength="50" oninvalid="this.setCustomValidity('Please enter a valid email.')"
+								[disabled]="listingMapInsert.listingDetails.listingType === 'For Sale'">
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</form>
+
+		<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ LEASEDETAILS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+		<!-- class: 'active' will be added to the form dynamically, if the form's id is the same as the current section the user is on. -->
+		<form ngNativeValidate #leasedetails id="leasedetails"
+			[class.active]="addPropertyRoutes[currentIndex] === 'leasedetails'">
+			<div class="Inputs col3LeaseDetails_input">
+				<div class="LeaseDetails_row">
+					<div class="LeaseDetails_col">
+						<div
+							[class]="(isEdit && !Agent.admin) || listingMapInsert.listingDetails.listingType === 'For Sale' ? 'inputDisabled' : ''">
+							<a>Lease Period:</a><br>
+							<select id="LeasePeriod_cmbx" name="leaseSelect" required oninput="setCustomValidity('')"
+								oninvalid="this.setCustomValidity('Please select a valid period.')"
+								[(ngModel)]="listingMapInsert.leaseDetails.leasePeriod"
+								[disabled]="(isEdit && !Agent.admin) || listingMapInsert.listingDetails.listingType === 'For Sale' ? true: false">
+								<option value="" disabled hidden selected>Select Lease Period</option>
+								<option *ngFor="let leasePeriod of (leaseDetails | async)?.leasePeriod"
+									[value]="leasePeriod">
+									{{leasePeriod}} </option>
+							</select>
+						</div>
+
+						<div class="radio-inputs"
+							[class]="(isEdit && !Agent.admin) || listingMapInsert.listingDetails.listingType === 'For Sale' ? 'inputDisabled' : ''">
+							<a>Available:</a>
+							<select id="Available_cmbx" name="availableSelect"
+								[(ngModel)]="listingMapInsert.leaseDetails.availability"
+								[disabled]="(isEdit && !Agent.admin) || listingMapInsert.listingDetails.listingType === 'For Sale' ?true: false"
+								required>
+								<option value="" disabled hidden selected>Select Availability</option>
+								<option *ngFor="let availability of (leaseDetails | async)?.Availability"
+									[value]="availability">
+									{{availability}} </option>
+							</select>
+						</div>
+
+						<div
+							[class]="(isEdit && !Agent.admin) || listingMapInsert.listingDetails.listingType === 'For Sale' ? 'inputDisabled' : ''">
+							<a>Occupation Date:</a><br>
+							<input #OccupationDate_date id="OccupationDate_date" name="occupyDate" type="date"
+								oninput="setCustomValidity('')"
+								[(ngModel)]="listingMapInsert.leaseDetails.occupationDate" required
+								oninvalid="this.setCustomValidity('Please select a valid date.')" [min]="minDate"
+								[disabled]="(isEdit && !Agent.admin) || listingMapInsert.listingDetails.listingType === 'For Sale' ? true: false">
+						</div>
+
+						<div
+							[class]="listingMapInsert.listingDetails.listingType === 'For Sale' ? 'inputDisabled' : ''">
+							<a>Deposit:</a><br>
+							<input #Deposit_edt id="Deposit_edt" name="depositField" type="number" [min]="0"
+								[max]="9999999999" step="0.01" [(ngModel)]="listingMapInsert.leaseDetails.deposit"
+								placeholder="Enter Deposit" oninput="setCustomValidity('')"
+								[disabled]="listingMapInsert.listingDetails.listingType === 'For Sale' ? true: false"
+								oninvalid="this.setCustomValidity('Please enter a valid deposit amount.')" required>
+						</div>
+
+						<div
+							[class]="(isEdit && !Agent.admin) || listingMapInsert.listingDetails.listingType === 'For Sale' ? 'inputDisabled' : ''">
+							<a>Lease Excludes:</a><br>
+							<input #LeaseExcludes_edt id="LeaseExcludes_edt" name="leaseExcludeField" type="text"
+								placeholder="Enter Lease Excludes"
+								[(ngModel)]="listingMapInsert.leaseDetails.leaseExcludes"
+								oninput="setCustomValidity('')" maxlength="50" pattern="[A-Za-z0-9 -_]+"
+								oninvalid="this.setCustomValidity('Please enter valid information.')"
+								[disabled]="(isEdit && !Agent.admin) || listingMapInsert.listingDetails.listingType === 'For Sale' ? true: false"
+								required>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
+		<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ MANDATEDETAILS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+		<!-- class: 'active' will be added to the form dynamically, if the form's id is the same as the current section the user is on. -->
+		<form ngNativeValidate #mandatedetails id="mandatedetails"
+			[class.active]="addPropertyRoutes[currentIndex] === 'mandatedetails'">
+			<div class="Inputs col3MandateDetails_input">
+				<div class="MandateDetails_row">
+					<div class="MandateDetails_col">
+						<div [class]="isEdit && !Agent.admin? 'inputDisabled' : ''">
+							<a>Commission:</a><br>
+							<input #Commission id="Commission_edt" name="commisField" type="number" [min]="0"
+								[max]="9999999999" step="0.01" placeholder="Enter Commission"
+								[(ngModel)]="listingMapInsert.mandateDetails.commission" oninput="setCustomValidity('')"
+								oninvalid="this.setCustomValidity('Please enter a valid commission amount.')"
+								[disabled]="isEdit && !Agent.admin? true: false" required>
+						</div>
+
+						<div [class]="isEdit && !Agent.admin? 'inputDisabled' : ''">
+							<a>Mandate Type:</a>
+							<select id="MandateType_cmbx" name="mandateSelect"
+								[(ngModel)]="listingMapInsert.mandateDetails.mandateType "
+								[disabled]="isEdit && !Agent.admin? true: false" required>
+								<option value="" disabled hidden selected>Select Mandate Type</option>
+								<option *ngFor="let mandateType of (mandateDetails | async)?.mandateType"
+									[value]="mandateType">
+									{{mandateType}} </option>
+							</select>
+						</div>
+
+						<div [class]="isEdit && !Agent.admin? 'inputDisabled' : ''">
+							<a>Mandate Start Date:</a><br>
+							<input #StartDate_date id="StartDate_date" name="startDate" type="date" [min]="minDate"
+								[(ngModel)]="listingMapInsert.mandateDetails.mandateStartDate"
+								oninput="setCustomValidity('')"
+								oninvalid="this.setCustomValidity('Please enter a valid start date.')"
+								[disabled]="isEdit && !Agent.admin? true: false" required>
+						</div>
+
+						<div [class]="isEdit && !Agent.admin? 'inputDisabled' : ''">
+							<a>Mandate End Date:</a><br>
+							<input #StartEnd_date id="StartEnd_date" name="endDate" type="date"
+								[min]="listingMapInsert.mandateDetails.mandateStartDate === null ? minDate : listingMapInsert.mandateDetails.mandateStartDate"
+								[(ngModel)]="listingMapInsert.mandateDetails.mandateEndDate"
+								oninput="setCustomValidity('')"
+								oninvalid="this.setCustomValidity('Please enter a valid end date.')"
+								[disabled]="isEdit && !Agent.admin? true: false" required>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
+		<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ OPENHOURDETAILS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+		<!-- class: 'active' will be added to the form dynamically, if the form's id is the same as the current section the user is on. -->
+		<form ngNativeValidate #openhourdetails id="openhourdetails"
+			[class.active]="addPropertyRoutes[currentIndex] === 'openhourdetails'">
+			<div class="Inputs col3OpenHour_input">
+				<div class="OpenHour_row">
+					<div class="OpenHour_col">
+						<div>
+							<a>Date:</a><br>
+							<input #OpenHourDate_date id="OpenHourDate_date" name="openHourDate" type="date"
+								[min]="minDate" [(ngModel)]="listingMapInsert.openHourDetails.openHourDate"
+								oninput="setCustomValidity('')"
+								oninvalid="this.setCustomValidity('Please enter a valid date.')">
+						</div>
+						<a>Time:</a>
+						<input type="time" id="OpenHourTime_time" name="openHourTime" min="07:00" max="18:00"
+							[(ngModel)]="listingMapInsert.openHourDetails.openHourTime" oninput="setCustomValidity('')"
+							oninvalid="this.setCustomValidity('Please enter a valid time.')">
+						<div class="list-items">
+							<a>
+								<ng-container *ngIf="selectedAgents.length <= 1; else elseAgents">
+									Agent:
+								</ng-container>
+								<ng-template #elseAgents>
+									Agents:
+								</ng-template>
+							</a>
+							<ul>
+								<li *ngFor="let agent of selectedAgents; let i = index">
+									{{i+1}}.
+									<ng-container *ngFor="let agentItem of agentItems | async">
+										<ng-container *ngIf="agentItem.id === agent">{{agentItem.name}}
+											{{agentItem.surname}}</ng-container>
+									</ng-container>
+								</li>
+							</ul>
+							<!-- <textarea disabled>{{selectedAgents.join('\n')}}</textarea> -->
+							<!-- <select id="OpenHourAgent_cmbx" required multiple>
+								<option value="" slected disabled *ngFor="let agent of selectedAgents">{{agent}}</option>
+							</select> -->
+						</div>
+
+						<div>
+							<a>Contact Number:</a><br>
+							<input #OpenHourContactNumber_edt id="OpenHourContactNumber_edt" name="openHourContact"
+								type="text" placeholder="Enter Contact Number"
+								[(ngModel)]="listingMapInsert.openHourDetails.contactNo" oninput="setCustomValidity('')"
+								oninvalid="this.setCustomValidity('Please enter a valid contact number.')"
+								pattern="^(\+0?1\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$" minlength="10" maxlength="10">
+						</div>
+
+						<div class="radio-inputs">
+							<a>On Show:</a>
+							<fieldset id="OpenHourOnShow_group">
+								<label>
+									<input #OpenHourOnShow_Yes type="radio" id="OpenHourOnShow_Yes" [value]="true"
+										name="OpenHourOnShow_group"
+										[(ngModel)]="listingMapInsert.openHourDetails.onShow">
+									<label for="OpenHourOnShow_Yes">Yes</label>
+								</label>
+								<label>
+									<input #OpenHourOnShow_No type="radio" id="OpenHourOnShow_No" [value]="false"
+										name="OpenHourOnShow_group"
+										[(ngModel)]="listingMapInsert.openHourDetails.onShow">
+									<label for="OpenHourOnShow_No">No</label>
+								</label>
+							</fieldset>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
+		<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ MAPPING +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+		<!-- class: 'active' will be added to the form dynamically, if the form's id is the same as the current section the user is on. -->
+		<form ngNativeValidate #mapping id="mapping" [class.active]="addPropertyRoutes[currentIndex] === 'mapping'">
+			<div class="Inputs col3Mapping_input">
+				<div class="Map_row">
+					<div class="Map_col">
+						<div>
+							<a>Map to Suburb:</a>
+							<input #MaptoSuburb_edt id="MaptoSuburb_edt" name="suburbMap" type="text"
+								placeholder="Enter Suburb" [(ngModel)]="listingMapInsert.mapping.mapSuburb"
+								oninput="setCustomValidity('')"
+								pattern="^([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$"
+								oninvalid="this.setCustomValidity('Please enter a valid suburb.')" maxlength="50">
+						</div>
+
+						<div>
+							<a>Map to Address:</a>
+							<input #MaptoAddress_edt id="MaptoAddress_edt" name="mapToAddress" type="text"
+								placeholder="Enter Address" [(ngModel)]="listingMapInsert.mapping.mapAddress"
+								oninput="setCustomValidity('')"
+								pattern="^([0-9a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[0-9a-zA-Z\u0080-\u024F]*$"
+								oninvalid="this.setCustomValidity('Please enter a valid address.')">
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</form>
+
+		<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ WEBSITEDETAILS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+		<!-- class: 'active' will be added to the form dynamically, if the form's id is the same as the current section the user is on. -->
+		<form ngNativeValidate #websitedetails id="websitedetails"
+			[class.active]="addPropertyRoutes[currentIndex] === 'websitedetails'">
+			<div class="Inputs col3WebDetails_input">
+				<div class="WebD_row">
+					<div class="WebD_col">
+						<div>
+							<a>Website Display:</a>
+							<input #WebDisplay_edt id="WebDisplay_edt" type="text" placeholder="Enter Website Display"
+								oninput="setCustomValidity('')" name="websiteDisplay"
+								[(ngModel)]="listingMapInsert.websiteDetails.webDisplay"
+								pattern="^([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$"
+								oninvalid="this.setCustomValidity('Please enter a valid display.')" maxlength="50"
+								required>
+						</div>
+
+						<div>
+							<a>Web REF No:</a>
+							<input #WebsiteRefNo_edt id="WebsiteRefNo_edt" type="text" placeholder="Enter Web REF No"
+								oninput="setCustomValidity('')" name="webRefNo"
+								[(ngModel)]="listingMapInsert.websiteDetails.webRefNo"
+								pattern="^([0-9a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[0-9a-zA-Z\u0080-\u024F]*$"
+								maxlength="7" oninvalid="this.setCustomValidity('Please enter a valid web reference number.')"
+								required>
+						</div>
+
+						<div>
+							<a>Marketing Heading:</a>
+							<input #MarketingHeading_edt id="MarketingHeading_edt" type="text"
+								placeholder="Enter Marketing Heading" oninput="setCustomValidity('')"
+								name="marketHeading" [(ngModel)]="listingMapInsert.websiteDetails.marketingHeading"
+								pattern="^([0-9a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[0-9a-zA-Z\u0080-\u024F]*$"
+								oninvalid="this.setCustomValidity('Please enter a valid marketing heading.')" required>
+						</div>
+
+						<div>
+							<a>Description:</a>
+							<textarea id="WebDescription_txta" rows="5" cols="81" placeholder="Enter Description..."
+								name="webDescription"
+								pattern="^([0-9a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[0-9a-zA-Z\u0080-\u024F]*$"
+								[(ngModel)]="listingMapInsert.websiteDetails.description" required
+								oninput="setCustomValidity('')"
+								oninvalid="this.setCustomValidity('Please enter a valid description.')"></textarea>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</form>
+
+		<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ EXTERNALLINKS +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+		<!-- class: 'active' will be added to the form dynamically, if the form's id is the same as the current section the user is on. -->
+		<form ngNativeValidate #externallinks id="externallinks"
+			[class.active]="addPropertyRoutes[currentIndex] === 'externallinks'">
+			<div class="Inputs col3ExternalLinks_input">
+				<div class="ExtLinks_row">
+					<div class="ExtLinks_col">
+						<div>
+							<a>External Link Name:</a>
+							<input #LinkName_edt id="LinkName_edt" type="text" placeholder="Enter Link Name"
+								oninput="setCustomValidity('')" name="extLinkName"
+								[(ngModel)]="listingMapInsert.externalLinks.externalLinkName"
+								pattern="^([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$"
+								oninvalid="this.setCustomValidity('Please enter a valid link name.')" maxlength="50">
+						</div>
+
+						<div>
+							<a>External Link URL:</a>
+							<input #LinkURL_edt id="LinkURL_edt" type="text" placeholder="Enter Link URL"
+								oninput="setCustomValidity('')" name="extLinkURL"
+								[(ngModel)]="listingMapInsert.externalLinks.externalLinkURL"
+								pattern="^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$"
+								oninvalid="this.setCustomValidity('Please enter a valid link URL.')">
+						</div>
+
+						<div>
+							<a>YouTube Video ID:</a>
+							<input #YoutubeVID_edt id="YoutubeVID_edt" type="text" placeholder="Enter YouTube video ID"
+								oninput="setCustomValidity('')" name="youtubeID"
+								[(ngModel)]="listingMapInsert.externalLinks.youtubeVideoID"
+								pattern="^([0-9a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[0-9a-zA-Z\u0080-\u024F]*$"
+								oninvalid="this.setCustomValidity('Please enter a valid YouTube video ID.')">
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</form>
+
+		<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ PROPERTYPICTURES +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+		<!-- class: 'active' will be added to the form dynamically, if the form's id is the same as the current section the user is on. -->
+		<form ngNativeValidate #propertypictures id="propertypictures"
+			[class.active]="addPropertyRoutes[currentIndex] === 'propertypictures'">
+			<div class="Inputs col3PropertyPictures_input">
+				<div class="PropertyPictures_row">
+					<div class="PropertyPictures_col">
+
+						<div class="dropzone" appDropzone (hovered)="toggleHover($event)" (dropped)="onDrop($event)"
+							[class.hovering]="isHovering">
+
+							<div class="file">
+								<label class="file-label" for="filechoose">
+									<strong>Choose a Picture </strong>
+									<span>or drag it here</span>
+								</label>
+								<input class="file-input" id="filechoose" type="file"
+									(change)="onDrop($event.target.files)" multiple
+									accept=".png,.jpeg,.jpg, image/png,image/jpeg,image/jpg">
+							</div>
+						</div>
+
+						<div *ngIf="fileTypeError" class="file-error">
+							<span>Cannot upload file. Only .png, .jpg and .jpeg files are currently accepted file
+								formats.</span>
+						</div>
+
+						<div class="photo-thumbs" [@inOutAnimation]
+							*ngIf="listingMapInsert.propertyPictureURL.pictureURLs as thumbs ">
+							<div class="photo-thumb-container" *ngFor="let thumb of thumbs">
+								<img [src]="thumb">
+								<div class="photo-thumb-delete" (click)="deletePicture(thumb)">
+									<svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
+										class="delete-icon">
+										<path fill="currentColor"
+											d="M296 432h16a8 8 0 0 0 8-8V152a8 8 0 0 0-8-8h-16a8 8 0 0 0-8 8v272a8 8 0 0 0 8 8zm-160 0h16a8 8 0 0 0 8-8V152a8 8 0 0 0-8-8h-16a8 8 0 0 0-8 8v272a8 8 0 0 0 8 8zM440 64H336l-33.6-44.8A48 48 0 0 0 264 0h-80a48 48 0 0 0-38.4 19.2L112 64H8a8 8 0 0 0-8 8v16a8 8 0 0 0 8 8h24v368a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48V96h24a8 8 0 0 0 8-8V72a8 8 0 0 0-8-8zM171.2 38.4A16.1 16.1 0 0 1 184 32h80a16.1 16.1 0 0 1 12.8 6.4L296 64H152zM384 464a16 16 0 0 1-16 16H80a16 16 0 0 1-16-16V96h320zm-168-32h16a8 8 0 0 0 8-8V152a8 8 0 0 0-8-8h-16a8 8 0 0 0-8 8v272a8 8 0 0 0 8 8z"
+											class="icon-primary"></path>
+									</svg>
+									<label>DELETE</label>
+								</div>
+							</div>
+						</div>
+
+						<h3 *ngIf="files.length > 0">Completed Uploads:
+							{{listingMapInsert.propertyPictureURL.pictureURLs.length - existingFiles.length}}/{{files.length}}
+						</h3>
+						<hr *ngIf="files.length > 0">
+
+						<div [@inOutAnimation]="files.length">
+							<div *ngFor="let file of files; first as isFirst">
+								<app-upload-task [file]="file" [itemID]="'PropertyPictures/'+ globaldocID"
+									(URLAdded)="addPropertyPictureURL($event)"
+									(fileCanceled)="removePropertyPictureFile($event)"
+									(fileDeleted)="removePropertyPictureURL($event)"></app-upload-task>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- <div id="dataSnackbarTrue">
+				<h3>Data Successfully Inserted!</h3>
+			</div>
+			<div id="dataSnackbarFalse">
+				<h3>Error Data not Inserted!</h3>
+			</div> -->
+			<!-- <app-snackbar *ngIf="message!==''" [message]="message" (messageFinished)="message=$event">   
+
+			</app-snackbar> -->
+		</form>
+		<!-- ++++++++++++++++++++++++++++++++++++++++++++++++ buttons used to navigate to the next/previous phases +++++++++++++++++++++++++++++++++++++++ -->
+		<!-- Previous BTN will display while the navigation index is not on the first item -->
+		<button *ngIf="previousIndex > - 1" id="previous" (click)="onPreviousButton()"
+			[disabled]="loading">Previous</button>
+		<!-- Next BTN will display while the navigation index is not on the last item -->
+		<button *ngIf="nextIndex < addPropertyRoutes.length" id="next" type="submit"
+			(click)="onNextButton()">Next</button>
+		<!-- Finish BTN will display when the navigation index is on the last item -->
+		<button *ngIf="currentIndex === addPropertyRoutes.length - 1" id="finish" type="submit"
+			(click)="onFinishButton()"
+			[disabled]="(files.length > (listingMapInsert.propertyPictureURL.pictureURLs.length - existingFiles.length)) || loading">
+			<app-loading-spinner *ngIf="loading; else notLoading"></app-loading-spinner>
+			<ng-template #notLoading>Finish</ng-template>
+		</button>
+	</div>
+</body>

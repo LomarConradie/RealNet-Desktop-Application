@@ -1,0 +1,295 @@
+<!--------------------------------------------------------------------------- POP UP BAR CODE --------------------------------------------------------------------------------->
+<div class="PopUp_Body">
+	<div class="Header">
+		<label id="PropertyTitle_lbl">{{overlayData.propertyDetails.propertyTitle || 'N/A'}}</label>
+		<a (click)="disposeOverlay()">
+			<img id="close_img" src="assets/close.png" />
+		</a>
+	</div>
+	<div class="Pictures_Div">
+		<div class="MainPicture_div">
+			<div class="MainImage_Class">
+				<ng-container *ngIf="overlayData.propertyPictureURL.pictureURLs?.length > 0">
+					<img src="{{overlayData.propertyPictureURL.pictureURLs[selectedPic]}}">
+				</ng-container>
+			</div>
+			<div class="BottomIcon_Class">
+				<div class="BottomIconContainer">
+					<img class="BottomIcons" src="assets\icons\Price.png" alt="Price">
+					<label id="Price_lbl"
+						class="BottomIconLabels">{{overlayData.listingDetails.price | currency:'ZAR':'symbol-narrow'}}</label>
+				</div> 
+
+				<div class="BottomIconContainer">
+					<img class="BottomIcons" src="assets\icons\calendar.png" alt="Calendar">
+					<label id="Calendar_lbl"
+						class="BottomIconLabels">{{overlayData.mandateDetails.mandateStartDate | date:'dd MMMM yyyy'}}
+						- {{overlayData.mandateDetails.mandateEndDate | date:'dd MMMM yyyy'}}</label>
+				</div>
+
+
+				<div class="BottomIconContainer">
+					<img class="BottomIcons" src="assets\icons\Warning.png" alt="Status">
+					<label id="Status_lbl" class="BottomIconLabels"
+						style="margin-right: 0px;">{{overlayData.listingDetails.status || 'N/A'}}</label>
+				</div>
+
+			</div>
+		</div>
+		<div class="SeperatePictures_div">
+			<ng-container *ngIf="overlayData.propertyPictureURL.pictureURLs?.length > 0; else noPics">
+				<ng-container *ngFor="let picture of overlayData.propertyPictureURL.pictureURLs; let i = index;">
+					<div id="Picture{{i}}_div" class="Picture_div" (click)="selectedPic = i"
+						[ngClass]="selectedPic === i ? 'active' : ''">
+						<img src="{{picture}}">
+					</div>
+				</ng-container>
+			</ng-container>
+			<ng-template #noPics>
+				<h1>No Pictures added :(</h1>
+			</ng-template>
+		</div>
+	</div>
+
+<div class="row">
+	<div class="IconsRow_Div">
+		<label id="BedroomIcon_lbl" class="IconLabels">{{overlayData.propertyFeatures.bedroom}}</label>
+		<img class="PopUpIcons" src="assets/icons/Bedroom.png" title="Bedrooms" alt="Bedrooms">
+
+		<label id="BathroomIcon_lbl" class="IconLabels">{{overlayData.propertyFeatures.bathroom}}</label>
+		<img class="PopUpIcons" src="assets/icons/bathtub.png" title="Bathrooms" alt="Bathrooms">
+
+		<label id="KitchenIcon_lbl" class="IconLabels">{{overlayData.propertyFeatures.kitchen}}</label>
+		<img class="PopUpIcons" src="assets/icons/kitchen.png" title="Kitchens" alt="Kitchens">
+
+		<label id="LivingRoomIcon_lbl" class="IconLabels">{{overlayData.propertyFeatures.lounge}}</label>
+		<img class="PopUpIcons" src="assets/icons/couch.png" title="Living Rooms" alt="Living Rooms">
+
+		<label id="Floor_LandSize_lbl" class="IconLabels">Floor/Land Size:</label>
+		<ng-container *ngIf="overlayData.propertyDetails.landSize > 0; else elseFloorSize">
+			<label id="FloorSizeAnswer_lbl">{{overlayData.propertyDetails.landSize}}
+				{{overlayData.propertyDetails.measurementType}}</label>
+		</ng-container>
+		<ng-template #elseFloorSize>
+			<label id="FloorSizeAnswer_lbl">{{overlayData.propertyDetails.floorSize}}
+				{{overlayData.propertyDetails.measurementType}}</label>
+		</ng-template>
+
+		<label id="WebRefNo_lbl">Web Ref No:</label>
+		<label id="WebRefNoAnswer_lbl">{{overlayData.websiteDetails.webRefNo}}</label>
+	</div>
+	<div class="end">
+		<button id="EditProperty_Btn" [routerLink]="['/addproperty/',overlayData.id]"> 
+			<img class="btn_img" id="edtBtn_img" src="assets/icons/edit.png">Edit Property
+		</button>
+	</div>
+</div> 
+
+	<div class="MainInputs_Div">
+		<div class="PropertyInfo_Div">
+			<div class="PropertyInfoTitle_div">
+				<label id="PropertyInfoTitle_lbl">Property Info</label>
+			</div>
+
+			<div class="PropertyInfoData_div">
+				<div class="col1_div">
+					<label id="Details_lbl">Details</label><br>
+
+					<label id="PropertyType_lbl" class="DataLabels">Property Type: </label>
+					<label id="PropertyTypeAnswer_lbl"
+						class="DataLabelsAnswers">{{overlayData.propertyDetails.propertyType || 'N/A'}}</label><br>
+
+					<label id="Col1PropertyTitle_lbl" class="DataLabels">Property Title: </label>
+					<label id="Col1PropertyTitleAnswer_lbl"
+						class="DataLabelsAnswers">{{overlayData.propertyDetails.propertyTitle || 'N/A'}}</label><br>
+
+					<label id="Price_POA_lbl" class="DataLabels">Price/POA: </label>
+					<ng-container *ngIf="overlayData.listingDetails.priceOnApplication === true; else elsePrice">
+						<label id="Price_POAAnswer_lbl"
+							class="DataLabelsAnswers">{{overlayData.listingDetails.priceOnApplication | currency:'ZAR':'symbol-narrow'}}</label>
+					</ng-container>
+					<ng-template #elsePrice>
+						<label id="Price_POAAnswer_lbl"
+							class="DataLabelsAnswers">{{overlayData.listingDetails.price | currency:'ZAR':'symbol-narrow'}}</label>
+					</ng-template>
+					<br>
+
+					<label id="ValuationPrice_lbl" class="DataLabels">Valuation Price: </label>
+					<label id="ValuationPriceAnswer_lbl"
+						class="DataLabelsAnswers">{{overlayData.listingDetails.valuationPrice | currency:'ZAR':'symbol-narrow'}}</label><br>
+
+					<label id="ERFNo_lbl" class="DataLabels">ERF No: </label>
+					<label id="ERFNoAnswer_lbl"
+						class="DataLabelsAnswers">{{overlayData.propertyDetails.erfNo || 'N/A'}}</label><br>
+
+					<label id="SectionalTitleNo_lbl" class="DataLabels">Sectional Title No: </label>
+					<label id="SectionalTitleNoAnswer_lbl"
+						class="DataLabelsAnswers">{{overlayData.propertyDetails.sectionalTitleNo || 'N/A'}}</label><br>
+
+					<ng-container *ngIf="overlayData.propertyDetails.province == 'Western Cape'; else elseProvince">
+						<label id="Area_lbl" class="DataLabels">Area: </label>
+						<label id="AreaAnswer_lbl" class="DataLabelsAnswers">{{overlayData.propertyDetails.area}},
+							Western Cape</label>
+					</ng-container>
+					<ng-template #elseProvince>
+						<label id="Area_lbl" class="DataLabels">Province: </label>
+						<label id="AreaAnswer_lbl"
+							class="DataLabelsAnswers">{{overlayData.propertyDetails.province}}</label>
+					</ng-template>
+					<br>
+
+					<label id="Suburb_lbl" class="DataLabels">Suburb: </label>
+					<label id="SuburbAnswer_lbl"
+						class="DataLabelsAnswers">{{overlayData.propertyDetails.suburb || 'N/A'}}</label>
+					<br>
+
+					<ng-container *ngIf="overlayData.propertyDetails.streetNo > 0; else elseComplexNo">
+						<label id="StreetNo_ComplexNo_lbl" class="DataLabels">Street No: </label>
+						<label id="StreetNo_ComplexNoAnswer_lbl"
+							class="DataLabelsAnswers">{{overlayData.propertyDetails.streetNo || 'N/A'}}</label>
+					</ng-container>
+					<ng-template #elseComplexNo>
+						<label id="StreetNo_ComplexNo_lbl" class="DataLabels">Complex No: </label>
+						<label id="StreetNo_ComplexNoAnswer_lbl"
+							class="DataLabelsAnswers">{{overlayData.propertyDetails.complexUnitNo || 'N/A'}}</label>
+					</ng-template>
+					<br>
+
+					<ng-container *ngIf="overlayData.propertyDetails.complexUnitNo + '' != ''">
+						<label id="ComplexName_lbl" class="DataLabels">Complex Name: </label>
+						<label id="ComplexNameAnswer_lbl"
+							class="DataLabelsAnswers">{{overlayData.propertyDetails.complexName || 'N/A'}}</label><br>
+					</ng-container>
+
+					<label id="StreetName_lbl" class="DataLabels">Street Name: </label>
+					<label id="StreetNameAnswer_lbl"
+						class="DataLabelsAnswers">{{overlayData.propertyDetails.streetName || 'N/A'}}</label><br>
+				</div>
+
+				<div class="col2_div">
+					<label id="Features_lbl">Features</label><br>
+
+					<label id="DiningRooms_lbl" class="DataLabels">Dining Rooms: </label>
+					<label id="DiningRoomsAnswer_lbl"
+						class="DataLabelsAnswers">{{overlayData.propertyFeatures.diningRoom || 'N/A'}}</label><br>
+
+					<label id="Laundry_lbl" class="DataLabels">Laundry: </label>
+					<label id="LaundryAnswer_lbl"
+						class="DataLabelsAnswers">{{overlayData.propertyFeatures.laundry || 'N/A'}}</label><br>
+
+					<label id="Pool_lbl" class="DataLabels">Pool: </label>
+					<label id="PoolAnswer_lbl"
+						class="DataLabelsAnswers">{{overlayData.propertyFeatures.pool ? 'Yes' : 'No'}}</label><br>
+
+					<label id="Furnished_lbl" class="DataLabels">Furnished: </label>
+					<label id="FurnishedAnswer_lbl"
+						class="DataLabelsAnswers">{{overlayData.propertyFeatures.furnished ? 'Yes' : 'No'}}</label><br>
+				</div>
+
+				<div class="col3_div">
+					<label id="LeaseDetails_lbl">Lease Details</label><br>
+
+					<label id="LeasePeriod_lbl" class="DataLabels">Lease Period: </label>
+					<label id="LeasePeriodAnswer_lbl"
+						class="DataLabelsAnswers">{{overlayData.leaseDetails.leasePeriod}}</label><br>
+
+					<label id="OccupationDate_lbl" class="DataLabels">Occupation Date: </label>
+					<label id="OccupationDateAnswer_lbl"
+						class="DataLabelsAnswers">{{overlayData.leaseDetails.occupationDate | date:'dd MMMM yyyy'}}</label><br>
+
+					<label id="Deposit_lbl" class="DataLabels">Deposit: </label>
+					<label id="DepositAnswer_lbl"
+						class="DataLabelsAnswers">{{overlayData.leaseDetails.deposit | currency:'ZAR':'symbol-narrow'}}</label><br>
+
+					<label id="LeaseExcludes_lbl" class="DataLabels">Lease Excludes: </label>
+					<label id="LeaseExcludesAnswer_lbl"
+						class="DataLabelsAnswers">{{overlayData.leaseDetails.leaseExcludes}}</label><br>
+				</div>
+			</div>
+		</div>
+
+		<div class="AdditionalInfo_Div">
+			<div class="AdditionalInfoTitle_div">
+				<label id="AdditionalInfotitle_lbl">Additional Info</label>
+			</div>
+			<div class="AdditionalInfoData_div">
+				<div class="col1_div">
+					<label id="Seller_LandlordDetails_lbl">{{overlayData.sellerDetails.sellerType}}
+						Details</label><br>
+
+					<ng-container *ngFor="let seller of overlayData.sellerDetails.sellers">
+						<label id="Name_lbl" class="DataLabels">Name: </label>
+						<label id="NameAnswer_lbl" class="DataLabelsAnswers">{{seller.seller.sellerName}}</label><br>
+
+						<label id="Surname_lbl" class="DataLabels">Surname: </label>
+						<label id="SurnameAnswer_lbl"
+							class="DataLabelsAnswers">{{seller.seller.sellerSurname}}</label><br>
+
+						<label id="SellerAddress_lbl" class="DataLabels">Address: </label>
+						<label id="SellerAddressAnswer_lbl"
+							class="DataLabelsAnswers">{{seller.seller.sellerAddress}}</label><br>
+
+						<label id="ContactNumber_lbl" class="DataLabels">Contact Number: </label>
+						<label id="ContactNumberAnswer_lbl"
+							class="DataLabelsAnswers">{{seller.seller.sellerContactNum}}</label><br>
+
+						<label id="SellerEmail_lbl" class="DataLabels">Email: </label>
+						<label id="SellerEmailAnswer_lbl"
+							class="DataLabelsAnswers">{{seller.seller.sellerEmail}}</label><br>
+					</ng-container>
+
+				</div>
+
+				<div class="col2_div">
+					<label id="MandateDetails_lbl">Mandate Details</label><br>
+
+					<label id="Commission_lbl" class="DataLabels">Commission: </label>
+					<label id="CommissionAnswer_lbl"
+						class="DataLabelsAnswers">{{overlayData.mandateDetails.commission | currency:'ZAR':'symbol-narrow'}}</label><br>
+
+					<label id="MandateType_lbl" class="DataLabels">Mandate Type: </label>
+					<label id="PoolAnswer_lbl"
+						class="DataLabelsAnswers">{{overlayData.mandateDetails.mandateType}}</label><br>
+
+					<label id="MandateStartDate_lbl" class="DataLabels">Mandate Start Date: </label>
+					<label id="MandateStartDateAnswer_lbl"
+						class="DataLabelsAnswers">{{overlayData.mandateDetails.mandateStartDate | date:'dd MMMM yyyy'}}</label><br>
+
+					<label id="MandateEndDate_lbl" class="DataLabels">Mandate End Date: </label>
+					<label id="MandateEndDateAnswer_lbl"
+						class="DataLabelsAnswers">{{overlayData.mandateDetails.mandateEndDate | date:'dd MMMM yyyy'}}</label><br>
+				</div>
+
+				<div class="col3_div">
+					<label id="LinkDetails_lbl">Link Details</label><br>
+
+					<label id="ExternalLinkName_lbl" class="DataLabels">External Link Name: </label>
+					<label id="ExternalLinkNameAnswer_lbl"
+						class="DataLabelsAnswers">{{overlayData.externalLinks.externalLinkName || 'N/A'}}</label><br>
+
+					<label id="ExternalLinkURL_lbl" class="DataLabels">External Link URL: </label>
+					<label id="ExternalLinkURLAnswer_lbl"
+						class="DataLabelsAnswers">{{overlayData.externalLinks.externalLinkURL || 'N/A'}}</label><br>
+
+					<label id="YoutubeVideoID_lbl" class="DataLabels">Youtube Video ID: </label>
+					<label id="YoutubeVideoIDAnswer_lbl"
+						class="DataLabelsAnswers">{{overlayData.externalLinks.youtubeVideoID || 'N/A'}}</label><br>
+				</div>
+			</div>
+		</div>
+
+		<div *ngFor="let agent of agentItems | async" class="Agents_Div">
+			<div class="AgentPicture_div">
+				<img id="Agent_Img" [src]="agent.agentPicUrl || 'assets/user-avatar-placeholder.png'"
+					alt="pic not available">
+			</div>
+
+			<div class="AgentInfo_div">
+				<label id="AgentName_lbl">{{agent.name}} {{agent.surname}}</label><br>
+				<li>Email: <a>{{agent.email}}</a></li>
+				<li>Contact Number: <a>{{agent.contactNum}}</a></li>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- </div> -->

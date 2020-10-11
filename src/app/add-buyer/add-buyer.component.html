@@ -1,0 +1,545 @@
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ BuyerDetails page1+++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<div class="AddBuyer_div">
+    <div class="Title_div">
+        <h1>{{addBuyerNames[currentIndex]}}</h1>
+    </div>
+
+    <div class="container">
+        <!-- class: 'active' will be added to the list item dynamically, if it's the current or previous section that the user is navigating -->
+        <ul class="progressBar">
+            <li class="bullet" [class.active]="currentIndex >= addBuyerRoutes.indexOf('page1')">Buyer
+                <br> Details</li>
+            <li class="bullet" [class.active]="currentIndex >= addBuyerRoutes.indexOf('page2')">
+                Preferences</li>
+            <li class="bullet" [class.active]="currentIndex >= addBuyerRoutes.indexOf('page3')">
+                Buyer
+                <br>Image</li>
+        </ul>
+    </div>
+
+    <form ngNativeValidate #buyerdetailspage1 class="col3_input" id="page1"
+        [class.active]="addBuyerRoutes[currentIndex] === 'page1'">
+        <div class="Inputs col3_input">
+            <div class="BuyerDetails_row">
+                <div class="BuyerDetails_col">
+                    <div class="BuyerTitle">
+                        <a style="font-size: 20px;">Buyer Details:</a>
+                    </div>
+
+                    <div>
+                        <a>First Name:</a><br>
+                        <input #BuyerFirstName_edt id="BuyerFirstName_edt" required type="text" name="BuyerFirstName"
+                            placeholder="Enter First Name" oninput="setCustomValidity('')"
+                            [(ngModel)]="buyersMapInsert.personalDetails.firstName"
+                            pattern="^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$" maxlength="50"
+                            oninvalid="this.setCustomValidity('Please enter a valid first name.')">
+                    </div>
+
+                    <div>
+                        <a>Last Name:</a><br>
+                        <input #BuyerLastName_edt id="BuyerLastName_edt" required type="text" name="BuyerLastName"
+                            placeholder="Enter Last Name" oninput="setCustomValidity('')"
+                            [(ngModel)]="buyersMapInsert.personalDetails.lastName"
+                            pattern="^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$" maxlength="50"
+                            oninvalid="this.setCustomValidity('Please enter a valid last name.')">
+                    </div>
+
+                    <div>
+                        <a>Email Address:</a><br>
+                        <input #BuyerEmailAddress_edt id="BuyerEmailAddress_edt" required type="text"
+                            name="BuyerEmailAddress" placeholder="Enter Address" oninput="setCustomValidity('')"
+                            [(ngModel)]="buyersMapInsert.personalDetails.emailAddress"
+                            pattern="(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|'(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*')@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])"
+                            maxlength="120" oninvalid="this.setCustomValidity('Please enter a valid email address.')">
+                    </div>
+
+                    <div>
+                        <a>Contact Number:</a><br>
+                        <input #BuyerContact_edt id="BuyerContact_edt" required type="text" name="buyerContact"
+                            placeholder="Enter Contact Number" oninput="setCustomValidity('')"
+                            [(ngModel)]="buyersMapInsert.personalDetails.contactNumber"
+                            pattern="^(\+0?1\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$" maxlength="10"
+                            oninvalid="this.setCustomValidity('Please enter a valid contact number.')">
+                    </div>
+                </div>
+
+                <div class="BuyerDetails_col">
+                    <div class="BuyerTitle">
+                        <a style="font-size: 20px;">Second Contact Details:</a>
+                    </div>
+
+                    <div>
+                        <a>First Name:</a><br>
+                        <input #BuyerSecondFirstName_edt id="BuyerSecondFirstName_edt" type="text"
+                            name="BuyerSecondFirstName" placeholder="Enter First Name" oninput="setCustomValidity('')"
+                            [(ngModel)]="buyersMapInsert.secondContact.secFirstName"
+                            pattern="^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$" maxlength="50"
+                            oninvalid="this.setCustomValidity('Please enter a valid first name.')">
+                    </div>
+
+                    <div>
+                        <a>Last Name:</a><br>
+                        <input #BuyerSecondLastName_edt id="BuyerSecondLastName_edt" type="text"
+                            name="BuyerSecondLastName" placeholder="Enter Last Name" oninput="setCustomValidity('')"
+                            [(ngModel)]="buyersMapInsert.secondContact.secLastName"
+                            pattern="^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$" maxlength="50"
+                            oninvalid="this.setCustomValidity('Please enter a valid last name.')">
+                    </div>
+
+                    <div>
+                        <a>Email Address:</a><br>
+                        <input #BuyerSecondEmailAddress_edt id="BuyerSecondEmailAddress_edt" type="text"
+                            name="BuyerSecondEmailAddress" placeholder="Enter Address" oninput="setCustomValidity('')"
+                            [(ngModel)]="buyersMapInsert.secondContact.secEmailAddress"
+                            pattern="(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|'(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*')@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])"
+                            maxlength="120" oninvalid="this.setCustomValidity('Please enter a valid email address.')">
+                    </div>
+
+                    <div>
+                        <a>Contact Number:</a><br>
+                        <input #BuyerSecondContact_edt id="BuyerSecondContact_edt" type="text" name="buyerSecondContact"
+                            placeholder="Enter Contact Number" oninput="setCustomValidity('')"
+                            [(ngModel)]="buyersMapInsert.secondContact.secContactNumber"
+                            pattern="^(\+0?1\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$" maxlength="10"
+                            oninvalid="this.setCustomValidity('Please enter a valid contact number.')">
+                    </div>
+                </div>
+
+                <div class="BuyerDetails_col">
+                    <div class="BuyerTitle">
+                        <a style="font-size: 20px;">Preferences:</a>
+                    </div>
+
+                    <div>
+                        <a>Min Price:</a><br>
+                        <input #BuyerMinPrice_edt id="BuyerMinPrice_edt" type="number" step="0.01"
+                            name="BuyerMinPrice_edt" [(ngModel)]="buyersMapInsert.requirements.minPrice"
+                            placeholder="Enter Min Price" required oninput="setCustomValidity('')" [min]="0" [max]="9999999999">
+                    </div>
+
+                    <div>
+                        <a>Max Price:</a><br>
+                        <input #BuyerMaxPrice_edt id="BuyerMaxPrice_edt" type="number" step="0.01"
+                            name="BuyerMaxPrice_edt" [(ngModel)]="buyersMapInsert.requirements.maxPrice"
+                            placeholder="Enter Max Price" required oninput="setCustomValidity('')" [min]="0" [max]="9999999999">
+                    </div>
+
+                    <div class="radio-inputs">
+                        <a>Buy/Rent:</a>
+                        <fieldset id="Requirements_group" class="removeRadioBorder">
+                            <label>
+                                <input #Buy_Rent_Buy type="radio" id="Buy_Rent_Buy" value="Buy" name="Buy_Rent_group"
+                                    [(ngModel)]="buyersMapInsert.requirements.owningPreference" required>
+                                <label for="Buy_Rent_Buy">Buy</label>
+                            </label>
+                            <label>
+                                <input #Buy_Rent_Rent type="radio" id="Buy_Rent_Rent" value="Rent" name="Buy_Rent_group"
+                                    [(ngModel)]="buyersMapInsert.requirements.owningPreference">
+                                <label for="Buy_Rent_Rent">Rent</label>
+                            </label>
+                        </fieldset>
+                    </div>
+
+                    <div>
+                        <a>Property Type:</a><br>
+                        <select #BuyerPropertyType_cmbx id="BuyerPropertyType_cmbx" required name="propertytypeSelect"
+                            [(ngModel)]="buyersMapInsert.requirements.propertyType">
+                            <option value="" disabled hidden selected>Select Property Type</option>
+                            <option *ngFor="let propType of (propertyDetails | async)?.propertyType" [value]="propType">
+                                {{propType}}</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+
+    <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++ BuyerDetails page2+++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <form ngNativeValidate #buyerdetailspage2 class="col3_input" id="page2"
+        [class.active]="addBuyerRoutes[currentIndex] === 'page2'">
+        <div class="Inputs col3_input">
+            <div class="BuyerDetails_row">
+                <div class="BuyerDetails_col">
+                    <div class="BuyerTitle">
+                        <a style="font-size: 20px;"></a>
+                    </div>
+
+                    <div>
+                        <a>Area:</a><br>
+                        <select #BuyerArea_cmbx id="BuyerArea_cmbx" name="areaCombo"
+                            [(ngModel)]="buyersMapInsert.requirements.area" oninput="setCustomValidity('')"
+                            oninvalid="this.setCustomValidity('Please select an area')" required>
+                            <option #areaNoneSelected value="" disabled hidden selected>Select Area</option>
+                            <option *ngFor="let area of (propertyDetails | async)?.Area" [value]="area">{{area}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <a>Suburb:</a><br>
+                        <input #BuyerSuburb_cmbx id="BuyerSuburb_cmbx" name="suburbField"
+                            [(ngModel)]="buyersMapInsert.requirements.suburb" required type="text"
+                            placeholder="Enter Suburb" oninput="setCustomValidity('')"
+                            pattern="^([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$" maxlength="50"
+                            oninvalid="this.setCustomValidity('Please enter a valid suburb name.')">
+                    </div>
+
+                    <div>
+                        <a>Land Size:</a><br>
+                        <input #BuyerLandSize_edt id="BuyerLandSize_edt" name="BuyerlandSizeField"
+                            [(ngModel)]="buyersMapInsert.requirements.landSize" type="number" min="0"
+                            placeholder="Enter Land Size" oninput="setCustomValidity('')" required
+                            oninvalid="this.setCustomValidity('Please enter a land size.')" maxlength="15"
+                            pattern="[0-9]{1,15}">
+                    </div>
+
+                    <div>
+                        <a>Bedrooms:</a><br>
+                        <input #BuyerBedrooms_edt id="BuyerBedrooms_edt" name="bedroomField"
+                            [(ngModel)]="buyersMapInsert.requirements.bedrooms" type="number" min="0" max="30" step="1"
+                            placeholder="Enter Amount Of Bedrooms"
+                            oninvalid="this.setCustomValidity('Please enter a valid amount of bedrooms.')"
+                            oninput="setCustomValidity('')" required>
+                    </div>
+
+                    <div>
+                        <a>Bathrooms:</a><br>
+                        <input #BuyerBathrooms_edt id="BuyerBathrooms_edt" name="bathroomField"
+                            [(ngModel)]="buyersMapInsert.requirements.bathrooms" type="number" min="0" max="30" step="1"
+                            placeholder="Enter Amount Of Bathrooms" oninput="setCustomValidity('')"
+                            oninvalid="this.setCustomValidity('Please enter a valid amount of bathrooms.')" required>
+                    </div>
+
+                    <div>
+                        <a>Kitchens:</a><br>
+                        <input #BuyerKitchens_edt id="BuyerKitchens_edt" name="kitchenField" type="number" min="0"
+                            max="30" step="1" placeholder="Enter Amount Of Kitchens" oninput="setCustomValidity('')"
+                            oninvalid="this.setCustomValidity('Please enter a valid amount for kitchens.')"
+                            [(ngModel)]="buyersMapInsert.requirements.kitchens" required>
+                    </div>
+
+                    <div>
+                        <a>Lounges:</a><br>
+                        <input #BuyerLounges_edt id="BuyerLounges_edt" name="loungeField" type="number" min="0" max="30"
+                            step="1" placeholder="Enter Amount Of Lounges" oninput="setCustomValidity('')"
+                            oninvalid="this.setCustomValidity('Please enter a valid amount for lounges.')"
+                            [(ngModel)]="buyersMapInsert.requirements.lounges" required>
+                    </div>
+
+                    <div>
+                        <a>Dining Rooms:</a><br>
+                        <input #BuyerDiningRooms_edt id="BuyerDiningRooms_edt" name="diningField" type="number" min="0"
+                            max="30" step="1" placeholder="Enter Amount Of Dining Rooms" oninput="setCustomValidity('')"
+                            oninvalid="this.setCustomValidity('Please enter a valid amount for dining rooms.')"
+                            [(ngModel)]="buyersMapInsert.requirements.diningRooms">
+                    </div>
+
+                    <div>
+                        <a>Flooring:</a><br>
+                        <select #BuyerFlooring_cmbx id="BuyerFlooring_cmbx" name="flooringSelect"
+                            [(ngModel)]="buyersMapInsert.requirements.flooring">
+                            <option value="" disabled hidden selected>Select Flooring</option>
+                            <option *ngFor="let floorType of (propertyFeatures | async)?.Flooring" [value]="floorType">
+                                {{floorType}}</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <a>Laundry:</a><br>
+                        <input #BuyerLaundry_edt id="BuyerLaundry_edt" name="laundryField" type="number" min="0"
+                            max="30" step="1" placeholder="Enter Amount For Laundry" oninput="setCustomValidity('')"
+                            oninvalid="this.setCustomValidity('Please enter a valid amount for laundry.')"
+                            [(ngModel)]="buyersMapInsert.requirements.laundryRooms">
+                    </div>
+                </div>
+
+                <div class="BuyerDetails_col">
+                    <div class="radio-inputs">
+                        <a>Patio:</a>
+                        <fieldset id="BuyerPatio_group" class="removeRadioBorder">
+                            <label>
+                                <input #BuyerPatio_Yes type="radio" id="BuyerPatio_Yes" [value]="true"
+                                    name="BuyerPatio_group" [(ngModel)]="buyersMapInsert.requirements.patio">
+                                <label for="BuyerPatio_Yes">Yes</label>
+                            </label>
+                            <label>
+                                <input #BuyerPatio_No type="radio" id="BuyerPatio_No" [value]="false"
+                                    name="BuyerPatio_group" [(ngModel)]="buyersMapInsert.requirements.patio">
+                                <label for="BuyerPatio_No">No</label>
+                            </label>
+                        </fieldset>
+                    </div>
+
+                    <div>
+                        <a>Balcony:</a><br>
+                        <input #BuyerBalcony_edt id="BuyerBalcony_edt" name="balconyField" type="number" min="0"
+                            max="30" step="1" placeholder="Enter Amount Of Balconies"
+                            [(ngModel)]="buyersMapInsert.requirements.balcony">
+                    </div>
+
+                    <div class="radio-inputs">
+                        <a>Domestic Accommodation:</a>
+                        <fieldset id="DomesticAccomodation_group" class="removeRadioBorder">
+                            <label>
+                                <input #BuyerDomesticAccomodation_Yes type="radio" id="BuyerDomesticAccomodation_Yes"
+                                    [value]="true" name="BuyerDomesticAccomodation_group"
+                                    [(ngModel)]="buyersMapInsert.requirements.domesticAccom">
+                                <label for="BuyerDomesticAccomodation_Yes">Yes</label>
+                            </label>
+                            <label>
+                                <input #BuyerDomesticAccomodation_No type="radio" id="BuyerDomesticAccomodation_No"
+                                    [value]="false" name="BuyerDomesticAccomodation_group"
+                                    [(ngModel)]="buyersMapInsert.requirements.domesticAccom">
+                                <label for="BuyerDomesticAccomodation_No">No</label>
+                            </label>
+                        </fieldset>
+                    </div>
+
+                    <div class="radio-inputs">
+                        <a>Flatlet:</a>
+                        <fieldset id="BuyerFlatlet_group" class="removeRadioBorder">
+                            <label>
+                                <input #BuyerFlatlet_Yes type="radio" id="BuyerFlatlet_Yes" [value]="true"
+                                    name="BuyerFlatlet_group" [(ngModel)]="buyersMapInsert.requirements.flatlet">
+                                <label for="BuyerFlatlet_Yes">Yes</label>
+                            </label>
+                            <label>
+                                <input #BuyerFlatlet_No type="radio" id="BuyerFlatlet_No" [value]="false"
+                                    name="BuyerFlatlet_group" [(ngModel)]="buyersMapInsert.requirements.flatlet">
+                                <label for="BuyerFlatlet_No">No</label>
+                            </label>
+                        </fieldset>
+                    </div>
+
+                    <div>
+                        <a>Study:</a><br>
+                        <input #BuyerStudy_edt id="BuyerStudy_edt" name="studyField" type="number" min="0" max="30"
+                            step="1" placeholder="Enter Amount Of Study Rooms" [(ngModel)]="buyersMapInsert.requirements.study">
+                    </div>
+
+                    <div>
+                        <a>Exterior:</a><br>
+                        <select #BuyerExterior_cmbx id="BuyerExterior_cmbx" name="exteriorSelect"
+                            [(ngModel)]="buyersMapInsert.requirements.exterior">
+                            <option value="" disabled hidden selected>Select Exterior</option>
+                            <option *ngFor="let extType of (propertyFeatures | async)?.Exterior" [value]="extType">
+                                {{extType}}</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <a>Roof:</a><br>
+                        <select #BuyerRoof_cmbx id="BuyerRoof_cmbx" name="roofSelect"
+                            [(ngModel)]="buyersMapInsert.requirements.roof">
+                            <option value="" disabled hidden selected>Select Roof</option>
+                            <option *ngFor="let roofType of (propertyFeatures | async)?.Roof" [value]="roofType">
+                                {{roofType}}</option>
+                        </select>
+                    </div>
+
+                    <div class="radio-inputs">
+                        <a>Pool:</a>
+                        <fieldset id="BuyerPool_group" class="removeRadioBorder">
+                            <label>
+                                <input #BuyerPool_Yes type="radio" id="BuyerPool_Yes" [value]="true"
+                                    name="BuyerPool_group" [(ngModel)]="buyersMapInsert.requirements.pool">
+                                <label for="BuyerPool_Yes">Yes</label>
+                            </label>
+                            <label>
+                                <input #BuyerPool_No type="radio" id="BuyerPool_No" [value]="false"
+                                    name="BuyerPool_group" [(ngModel)]="buyersMapInsert.requirements.pool">
+                                <label for="BuyerPool_No">No</label>
+                            </label>
+                        </fieldset>
+                    </div>
+
+                    <div>
+                        <a>Garden Type:</a><br>
+                        <select #BuyerGardenType_cmbx id="BuyerGardenType_cmbx" name="gardenSelect"
+                            [(ngModel)]="buyersMapInsert.requirements.gardenType">
+                            <option value="" disabled hidden selected>Select Garden Type</option>
+                            <option *ngFor="let gardenType of(propertyFeatures | async)?.GardenType"
+                                [value]="gardenType">{{gardenType}}</option>
+                        </select>
+                    </div>
+                </div>
+
+
+
+                <div class="BuyerDetails_col">
+                    <div class="BuyerTitle">
+                        <a style="font-size: 20px;"></a>
+                    </div>
+
+                    <div class="PropertyFeatures_col">
+                        <div class="radio-inputs">
+                            <a>Views:</a>
+                            <fieldset id="BuyerViews_group" class="removeRadioBorder">
+                                <label>
+                                    <input #BuyerViews_Yes type="radio" id="BuyerViews_Yes" [value]="true"
+                                        name="BuyerViews_group" [(ngModel)]="buyersMapInsert.requirements.views">
+                                    <label for="BuyerViews_Yes">Yes</label>
+                                </label>
+                                <label>
+                                    <input #BuyerViews_No type="radio" id="BuyerViews_No" [value]="false"
+                                        name="BuyerViews_group" [(ngModel)]="buyersMapInsert.requirements.views">
+                                    <label for="BuyerViews_No">No</label>
+                                </label>
+                            </fieldset>
+                        </div>
+                    </div>
+
+                    <div class="radio-inputs">
+                        <a>Security:</a>
+                        <fieldset id="Security_group" class="removeRadioBorder">
+                            <label>
+                                <input #BuyerSecurity_Yes type="radio" id="BuyerSecurity_Yes" [value]="true"
+                                    name="BuyerSecurity_group" [(ngModel)]="buyersMapInsert.requirements.security">
+                                <label for="BuyerSecurity_Yes">Yes</label>
+                            </label>
+                            <label>
+                                <input #BuyerSecurity_No type="radio" id="BuyerSecurity_No" [value]="false"
+                                    name="BuyerSecurity_group" [(ngModel)]="buyersMapInsert.requirements.security">
+                                <label for="BuyerSecurity_No">No</label>
+                            </label>
+                        </fieldset>
+                    </div>
+
+                    <div class="radio-inputs">
+                        <a>Storeroom:</a>
+                        <fieldset id="BuyerStoreroom_group" class="removeRadioBorder">
+                            <label>
+                                <input #BuyerStoreroom_Yes type="radio" id="BuyerStoreroom_Yes" [value]="true"
+                                    name="BuyerStoreroom_group" [(ngModel)]="buyersMapInsert.requirements.storeRoom">
+                                <label for="BuyerStoreroom_Yes">Yes</label>
+                            </label>
+                            <label>
+                                <input #BuyerStoreroom_No type="radio" id="BuyerStoreroom_No" [value]="false"
+                                    name="BuyerStoreroom_group" [(ngModel)]="buyersMapInsert.requirements.storeRoom">
+                                <label for="BuyerStoreroom_No">No</label>
+                            </label>
+                        </fieldset>
+                    </div>
+
+                    <div>
+                        <a>Walling:</a><br>
+                        <select #BuyerWalling_cmbx id="BuyerWalling_cmbx" name="wallSelect"
+                            [(ngModel)]="buyersMapInsert.requirements.wallType">
+                            <option value="" disabled hidden selected>Select Walling</option>
+                            <option *ngFor="let wallType of (propertyFeatures | async)?.Walling" [value]="wallType">
+                                {{wallType}}</option>
+                        </select>
+                    </div>
+
+                    <div class="radio-inputs">
+                        <a>Furnished:</a>
+                        <fieldset id="BuyerFurnished_group" class="removeRadioBorder">
+                            <label>
+                                <input #BuyerFurnished_Yes type="radio" id="BuyerFurnished_Yes" [value]="true"
+                                    name="BuyerFurnished_group" [(ngModel)]="buyersMapInsert.requirements.furnished">
+                                <label for="BuyerFurnished_Yes">Yes</label>
+                            </label>
+                            <label>
+                                <input #BuyerFurnished_No type="radio" id="BuyerFurnished_No" [value]="false"
+                                    name="BuyerFurnished_group" [(ngModel)]="buyersMapInsert.requirements.furnished">
+                                <label for="BuyerFurnished_No">No</label>
+                            </label>
+                        </fieldset>
+                    </div>
+
+                    <div>
+                        <a>Extras:</a><br>
+                        <input #BuyerExtras_edt id="#BuyerExtras_edt" name="extrasSelect" type="text"
+                            placeholder="Enter Extra Details" pattern="[A-Za-z0-9 -_]+"
+                            [(ngModel)]="buyersMapInsert.requirements.extras">
+                    </div>
+
+                    <div class="radio-inputs">
+                        <a>Pets Allowed:</a>
+                        <fieldset id="BuyerPetsAllowed_group" class="removeRadioBorder">
+                            <label>
+                                <input #BuyerPetsAllowed_Yes type="radio" id="BuyerPetsAllowed_Yes" [value]="true"
+                                    name="BuyerPetsAllowed_group"
+                                    [(ngModel)]="buyersMapInsert.requirements.petsAllowed">
+                                <label for="BuyerPetsAllowed_Yes">Yes</label>
+                            </label>
+                            <label>
+                                <input #BuyerPetsAllowed_No type="radio" id="BuyerPetsAllowed_No" [value]="false"
+                                    name="BuyerPetsAllowed_group"
+                                    [(ngModel)]="buyersMapInsert.requirements.petsAllowed">
+                                <label for="BuyerPetsAllowed_No">No</label>
+                            </label>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+    <form ngNativeValidate #buyerdetailspage2 class="col3_input" id="page3"
+        [class.active]="addBuyerRoutes[currentIndex] === 'page3'">
+        <div class="Inputs col3PropertyPictures_input">
+            <div class="PropertyPictures_row">
+                <div class="PropertyPictures_col">
+                    <div class="dropzone" appDropzone (hovered)="toggleHover($event)" (dropped)="onDrop($event)"
+                        [class.hovering]="isHovering">
+
+                        <div class="file">
+                            <label class="file-label" for="filechoose">
+                                <strong>Choose a Picture </strong>
+                                <span>or drag it here</span>
+                            </label>
+                            <input class="file-input" id="filechoose" type="file" (change)="onDrop($event.target.files)"
+                                accept=".png,.jpeg,.jpg, image/png,image/jpeg,image/jpg">
+                        </div>
+                    </div>
+
+                    <div *ngIf="fileError !== ''" class="file-error">
+                        <span>{{fileError}}</span>
+                    </div>
+
+                    <div class="photo-thumbs" [@inOutAnimation] *ngIf="buyersMapInsert.addBuyerPictureURL != ''">
+                        <div class="photo-thumb-container">
+                            <img [src]="buyersMapInsert.addBuyerPictureURL">
+                            <div class="photo-thumb-delete" (click)="deletePicture(buyersMapInsert.addBuyerPictureURL)">
+                                <svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
+                                    class="delete-icon">
+                                    <path fill="currentColor"
+                                        d="M296 432h16a8 8 0 0 0 8-8V152a8 8 0 0 0-8-8h-16a8 8 0 0 0-8 8v272a8 8 0 0 0 8 8zm-160 0h16a8 8 0 0 0 8-8V152a8 8 0 0 0-8-8h-16a8 8 0 0 0-8 8v272a8 8 0 0 0 8 8zM440 64H336l-33.6-44.8A48 48 0 0 0 264 0h-80a48 48 0 0 0-38.4 19.2L112 64H8a8 8 0 0 0-8 8v16a8 8 0 0 0 8 8h24v368a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48V96h24a8 8 0 0 0 8-8V72a8 8 0 0 0-8-8zM171.2 38.4A16.1 16.1 0 0 1 184 32h80a16.1 16.1 0 0 1 12.8 6.4L296 64H152zM384 464a16 16 0 0 1-16 16H80a16 16 0 0 1-16-16V96h320zm-168-32h16a8 8 0 0 0 8-8V152a8 8 0 0 0-8-8h-16a8 8 0 0 0-8 8v272a8 8 0 0 0 8 8z"
+                                        class="icon-primary"></path>
+                                </svg>
+                                <label>DELETE</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <h3 *ngIf="pics.length > 0">Completed Uploads: {{buyersMapInsert.addBuyerPictureURL.pictureURLs.length}}/{{pics.length}}
+                    </h3>
+                    <hr *ngIf="pics.length > 0"> -->
+
+                    <div [@inOutAnimation]="pics.length">
+                        <div *ngFor="let file of pics; first as isFirst">
+                            <app-upload-task [file]="file" [itemID]="'BuyerPictures/' + globaldocID"
+                                (URLAdded)="addPictureURL($event)" (fileCanceled)="removePictureFile($event)"
+                                (fileDeleted)="removePictureURL()">
+                            </app-upload-task>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <button *ngIf="previousIndex > - 1" id="previous" (click)="onPreviousButton()"
+        [disabled]="loading">Previous</button>
+    <!-- Next BTN will display while the navigation index is not on the last item -->
+    <button *ngIf="nextIndex < addBuyerRoutes.length" id="next" type="submit" (click)="onNextButton()">Next</button>
+    <!-- Finish BTN will display when the navigation index is on the last item -->
+    <button *ngIf="currentIndex === addBuyerRoutes.length - 1" id="finish" type="submit" (click)="onFinishButton()"
+        [disabled]="uploading || loading">
+        <app-loading-spinner *ngIf="loading; else notLoading"></app-loading-spinner>
+        <ng-template #notLoading>Finish</ng-template>
+    </button>
+</div> 

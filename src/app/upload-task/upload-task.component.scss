@@ -1,0 +1,67 @@
+.pic {
+  margin: 15px 0;
+}
+
+.pbar {
+  background-color: white;
+  width: 100%;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  transition: ease 0.5s;
+}
+
+.completion {
+  background-image: linear-gradient(to right, #de3e1b, #501974);
+  border: none;
+  border-radius: 5px;
+  color: white;
+  transition: ease 0.5s;
+}
+
+div {
+  animation: fade-in 0.75s ease forwards;
+}
+
+img {
+  max-width: 100%;
+  transition: ease 0.5s;
+  animation: fade-in 0.75s ease forwards;
+}
+
+h3 {
+  transition: ease 0.5s;
+  animation: fade-in 0.75s ease forwards;
+}
+
+button {
+  border: none;
+  border-radius: 20px;
+  padding: 5px;
+  margin: 5px;
+  background-color: red;
+  color: white;
+  transition: ease 0.5s;
+  animation: fade-in 0.75s ease forwards;
+}
+
+button:hover {
+  background-color: darkmagenta;
+}
+
+button:disabled {
+  background-color: gray;
+}
+
+@keyframes fade-in {
+  0% {
+    /* transform: translateX(200px); */
+    opacity: 0;
+    /* display: none; */
+  }
+
+  100% {
+    /* transform: translateX(0px); */
+    opacity: 1;
+    /* display: contents; */
+  }
+}

@@ -1,0 +1,389 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border: none;
+}
+
+input:invalid,
+select:invalid,
+textarea:invalid {
+  box-shadow: none;
+}
+
+a,
+input,
+input::placeholder,
+ul,
+h1,
+h3,
+span,
+textarea,
+select,
+img {
+  transition: 0.5s ease;
+  animation: 0.75s ease forwards fade-in;
+}
+
+@keyframes fade-in {
+  0% {
+    /* transform: translateX(200px); */
+    opacity: 0;
+    /* display: none; */
+  }
+
+  100% {
+    /* transform: translateX(0px); */
+    opacity: 1;
+    /* display: contents; */
+  }
+}
+
+.RealNet_AddAgent {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.SearchBar_div {
+  width: 100%;
+  top: 0;
+  height: 22%;
+  background-color: black;
+  text-align: center;
+}
+
+.SearchBarInfo_div {
+  display: inline-block;
+  padding-top: 20px;
+  padding-bottom: 31px;
+  margin-left: 14px;
+  a {
+    color: white;
+    float: left;
+    padding-bottom: 4px;
+  }
+}
+
+.SearchBarRow_first {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  margin-bottom: 20px;
+  width: 50%;
+}
+
+#AgentSearchName_edt {
+  margin-right: 15px;
+  height: 30px;
+  width: 200px;
+  padding-left: 10px;
+}
+
+#AgentSearchSurname_edt {
+  margin-right: 15px;
+  height: 30px;
+  width: 200px;
+  padding-left: 10px;
+}
+
+#AgentSearchEmail_edt {
+  margin-right: 15px;
+  height: 30px;
+  width: 200px;
+  padding-left: 10px;
+}
+
+.SearchBarRow_second {
+  display: none;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  margin-bottom: 20px;
+  width: 50%;
+}
+
+#AgentSearchPropertyType_cmbx {
+  margin-right: 15px;
+  height: 30px;
+  width: 220px;
+  padding-left: 10px;
+}
+
+#RentOrBuy_cmbx {
+  margin-right: 15px;
+  height: 30px;
+  width: 200px;
+  padding-left: 10px;
+}
+
+.radio-inputs {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+
+  label {
+    display: flex;
+    color: white;
+    margin-left: 5px;
+
+    input {
+      width: min-content;
+    }
+  }
+}
+
+.radio-inputs #Only_Show_Label{
+  margin-left: -50px;
+  font-size: 14px;
+}
+
+#admin{
+  margin-left: -12px;
+}
+
+
+
+#MinPrice_edt {
+  margin-right: 15px;
+  height: 30px;
+  width: 120px;
+  padding-left: 10px;
+}
+
+#ContactNumber_edt {
+  margin-right: 15px;
+  height: 30px;
+  width: 190px;
+  padding-left: 10px;
+}
+
+.SearchBarRow_Third {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  width: 50%;
+  padding-bottom: 20px;
+}
+
+#AgentSearchSuburb_cmbx {
+  margin-right: 125px;
+  height: 30px;
+  width: 220px;
+  padding-left: 10px;
+}
+
+#MoreSearch_btn {
+  overflow: hidden;
+  background-color: black;
+  border: solid;
+  border-color: white;
+  border-width: 0.5px;
+  color: white;
+  text-align: center;
+  font-size: 15px;
+  width: 200px;
+  transition: all 0.5s;
+  cursor: pointer;
+  height: 32px;
+  outline: none;
+  margin-right: 10px;
+  margin-top: 5px;
+}
+
+#MoreSearch_btn:hover {
+  background-color: white;
+  color: rgb(66, 29, 102);
+}
+
+#AgentSearch_btn {
+  border: none;
+  border-radius: 2px;
+  background-color: red;
+  color: white;
+  width: 110px;
+  height: 32px;
+  margin-left: 5px;
+  outline: none;
+  transition: all 0.5s;
+  margin-top: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#AgentSearch_btn:hover {
+  background-color: white;
+  color: purple;
+}
+
+#AgentsTitle_txt {
+  font-size: 50px;
+  margin-left: 10.07%;
+}
+
+#SortBy_cmbx {
+  height: 32px;
+  width: 200px; 
+  border: solid 1px;
+  padding-left: 10px;
+  margin-left: 10.07%;
+}
+
+#Agent_Count {
+  color: black;
+  font-size: 15px;
+  font-weight: bold;
+  float: left; 
+  margin-top: 15px;
+  margin-left: 10.07%;
+}
+
+/* Back to top Button CSS */
+.BackToTop_Btn {
+  position: fixed;
+  overflow: hidden;
+  right: 1px;
+  bottom: -40px;
+  border-radius: 2px;
+  background-color: red;
+  border: none;
+  color: white;
+  text-align: center;
+  font-size: 15px;
+  width: 150px;
+  height: 40px;
+  transition: all 0.5s;
+  cursor: pointer;
+  outline: none;
+}
+
+.BackToTop_Btn.active {
+  bottom: 15px;
+}
+
+.BackToTop_Btn:hover {
+  background-color: rgb(66, 29, 102);
+}
+/* Back to top Button CSS END */
+
+select {
+  -webkit-appearance: none;
+  /* for webkit (safari, chrome) compatibility */
+  -moz-appearance: none;
+  /* for firefox compatibility */
+  appearance: none;
+
+  background-image: url("src/assets/icons/expand-button.svg");
+  background-repeat: no-repeat;
+  background-position: right;
+  background-size: 15px;
+  background-position-x: 99%;
+  animation: 0.75s ease forwards fade-in;
+}
+
+.Agent_View {
+  position: absolute;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 40px;
+  margin-left: 5.15%;
+  transition: all 0.75s ease;
+  margin-bottom: 50px;
+  width: 90%;
+  justify-content: center;
+}
+
+.Agent_Box {
+  border: solid 2px gray;
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  margin: 15px;
+  transition: all 0.5s ease;
+}
+
+.Agent_Img {
+  height: 100%;
+  width: 100%;
+  img {
+    max-height: 100%;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+#Edit_Agent {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  display: none;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  border: 2px solid white;
+  background: none;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  min-width: 130px;
+  height: 30px;
+  cursor: pointer;
+  transition: ease-in-out 0.3s;
+  outline: none;
+}
+
+#Edit_Agent:hover {
+  transition: ease-in-out 0.3s;
+  background: white;
+  color: rgb(66, 29, 102);
+}
+
+.Agent_Box:hover {
+  background-image: linear-gradient(to top right, rgba(222, 62, 27, 0.15), rgba(80, 25, 116, 0.15));
+  transform: scale(1.05);
+
+  #Edit_Agent{
+    display: block;
+  }
+
+  img {
+    filter: drop-shadow(0 0 1rem black);
+    transition: all 0.5s ease;
+  }
+}
+
+.Agent_Details {
+  display: block;
+  text-align: center;
+  li {
+    list-style: none;
+    color: red;
+    font-size: 14px;
+    margin-bottom: 3px;
+  }
+  a {
+    color: black;
+  }
+}
+
+h2 {
+  margin-bottom: 10px;
+  color: white;
+  background: black;
+  font-size: 25px;
+}
+
+.showing {
+  margin-bottom: 15px;
+  margin-left: 45%;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
