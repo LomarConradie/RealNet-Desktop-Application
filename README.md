@@ -1,6 +1,6 @@
 # RealNet Desktop Application
  
-IMPORTANT NOTE: Due to the use of the angular framework and additional modules and config files, the entire package file could not be uploaded
+IMPORTANT NOTE: Due to the use of the angular framework and additional modules and config files, the entire package file could not be uploaded,
 however, the code files have been uploaded and can be opened (Visual Studio Code).
 
 This was our final year project where we were required to interact with a client and develop an applciation to solve their needs.
